@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6ba02d95fc38021293b5583993ee22b0",
+    "revision": "86f2beb7cd808ed28fb08c261384bf31",
     "url": "/inovelli-notfication-calc/index.html"
   },
   {
