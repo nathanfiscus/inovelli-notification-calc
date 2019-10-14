@@ -272,7 +272,7 @@ class App extends React.Component {
                 <Brightness7 />
               </Grid>
             </Grid>
-            <Typography gutterBottom>Duration Level</Typography>
+            <Typography gutterBottom>Duration</Typography>
             <Grid container spacing={2}>
               <Grid item>
                 <TimelapseIcon />
