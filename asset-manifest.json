@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/inovelli-notfication-calc/static/js/main.97ecdccb.chunk.js",
-    "main.js.map": "/inovelli-notfication-calc/static/js/main.97ecdccb.chunk.js.map",
+    "main.js": "/inovelli-notfication-calc/static/js/main.cb334bd4.chunk.js",
+    "main.js.map": "/inovelli-notfication-calc/static/js/main.cb334bd4.chunk.js.map",
     "runtime-main.js": "/inovelli-notfication-calc/static/js/runtime-main.37d845d3.js",
     "runtime-main.js.map": "/inovelli-notfication-calc/static/js/runtime-main.37d845d3.js.map",
-    "static/js/2.3c71871a.chunk.js": "/inovelli-notfication-calc/static/js/2.3c71871a.chunk.js",
-    "static/js/2.3c71871a.chunk.js.map": "/inovelli-notfication-calc/static/js/2.3c71871a.chunk.js.map",
+    "static/js/2.a26a1b4a.chunk.js": "/inovelli-notfication-calc/static/js/2.a26a1b4a.chunk.js",
+    "static/js/2.a26a1b4a.chunk.js.map": "/inovelli-notfication-calc/static/js/2.a26a1b4a.chunk.js.map",
     "index.html": "/inovelli-notfication-calc/index.html",
-    "precache-manifest.2875d42b83dae512481545de817ab489.js": "/inovelli-notfication-calc/precache-manifest.2875d42b83dae512481545de817ab489.js",
+    "precache-manifest.7e36ec3a586691c841722377b2d9b9b2.js": "/inovelli-notfication-calc/precache-manifest.7e36ec3a586691c841722377b2d9b9b2.js",
     "service-worker.js": "/inovelli-notfication-calc/service-worker.js",
     "static/media/Inovelli-LZW30-SN.gif": "/inovelli-notfication-calc/static/media/Inovelli-LZW30-SN.b878040d.gif"
   },
   "entrypoints": [
     "static/js/runtime-main.37d845d3.js",
-    "static/js/2.3c71871a.chunk.js",
-    "static/js/main.97ecdccb.chunk.js"
+    "static/js/2.a26a1b4a.chunk.js",
+    "static/js/main.cb334bd4.chunk.js"
   ]
 }
