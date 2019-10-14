@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   withStyles,
   Typography,
@@ -11,10 +12,13 @@ import {
   InputAdornment,
   IconButton,
   SvgIcon,
-  Grid
+  Grid,
+  Tooltip
 } from "@material-ui/core";
 import Brightness0 from "@material-ui/icons/Brightness2";
 import Brightness7 from "@material-ui/icons/Brightness7";
+import InfiniteIcon from "@material-ui/icons/AllInclusive";
+import TimelapseIcon from "@material-ui/icons/Timelapse";
 
 import lzw30sn from "./Inovelli-LZW30-SN.gif";
 let Gradient = require("gradient2");
@@ -25,6 +29,53 @@ let gradient = new Gradient({
 });
 
 const LED_COLORS = gradient.toArray("hex");
+
+const durationFormater = val => {
+  console.log(val);
+  switch (val) {
+    case 255:
+      return "Forever";
+    case 1:
+      return "1 second";
+    default:
+      if (val > 59) {
+        return `${Math.floor(val / 60)} minutes ${val % 60} seconds`;
+      } else {
+        return `${val} seconds`;
+      }
+  }
+};
+
+function ValueLabelComponent(props) {
+  const { children, open, value } = props;
+
+  const popperRef = React.useRef(null);
+  React.useEffect(() => {
+    if (popperRef.current) {
+      popperRef.current.update();
+    }
+  });
+
+  return (
+    <Tooltip
+      PopperProps={{
+        popperRef
+      }}
+      open={open}
+      enterTouchDelay={0}
+      placement="top"
+      title={durationFormater(value)}
+    >
+      {children}
+    </Tooltip>
+  );
+}
+
+ValueLabelComponent.propTypes = {
+  children: PropTypes.element.isRequired,
+  open: PropTypes.bool.isRequired,
+  value: PropTypes.number.isRequired
+};
 
 const styles = theme => ({
   "@global": {
@@ -52,9 +103,9 @@ const styles = theme => ({
   notificationLED: {
     position: "absolute",
     width: "7px",
-    height: "38px",
+    height: "39px",
     backgroundColor: "#CCCCCC",
-    bottom: "161px",
+    bottom: "162px",
     right: "129px"
   },
   colorHelper: {
@@ -79,6 +130,15 @@ const styles = theme => ({
     animationDuration: "2s",
     animationName: "blink",
     animationTimingFunction: "step-start"
+  },
+  credits: {
+    display: "flex",
+    position: "absolute",
+    bottom: "0",
+    right: "0",
+    left: "0",
+    padding: "15px",
+    justifyContent: "space-between"
   }
 });
 
@@ -86,9 +146,9 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      color: "1",
-      duration: "255",
-      level: "10",
+      color: 1,
+      duration: 255,
+      level: 10,
       effect: "1",
       value: "33488897"
     };
@@ -96,24 +156,36 @@ class App extends React.Component {
   }
 
   setValue = key => (e, v) => {
-    this.setState(
-      { [key]: key === "color" || key === "level" ? v : e.target.value },
-      () => {
-        this.setState(lastState => ({
-          value:
-            parseInt(lastState.color) +
-            lastState.level * 256 +
-            lastState.duration * 65536 +
-            lastState.effect * 16777216
-        }));
-      }
-    );
+    this.setState({ [key]: key !== "effect" ? v : e.target.value }, () => {
+      this.setState(lastState => ({
+        value:
+          parseInt(lastState.color) +
+          lastState.level * 256 +
+          lastState.duration * 65536 +
+          lastState.effect * 16777216
+      }));
+    });
   };
 
   handleCopy = () => {
     if (this.configValue.current) {
       this.configValue.current.select();
       document.execCommand("copy");
+    }
+  };
+
+  durationFormater = val => {
+    switch (val) {
+      case 255:
+        return "Forever";
+      case 1:
+        return "1 second";
+      default:
+        if (val > 59) {
+          return `${Math.floor(val / 60)}${val % 60} seconds`;
+        } else {
+          return `${val} seconds`;
+        }
     }
   };
 
@@ -169,9 +241,7 @@ class App extends React.Component {
             <Typography variant="h4" gutterBottom>
               Options
             </Typography>
-            <Typography id="discrete-slider" gutterBottom>
-              Color
-            </Typography>
+            <Typography gutterBottom>Color</Typography>
             <div className={this.props.classes.colorHelper} />
             <Slider
               defaultValue={1}
@@ -202,33 +272,27 @@ class App extends React.Component {
                 <Brightness7 />
               </Grid>
             </Grid>
-            <FormControl fullWidth={true} margin="normal">
-              <InputLabel>Duration</InputLabel>
-              <Select
-                value={this.state.duration}
-                onChange={this.setValue("duration")}
-              >
-                <MenuItem value="1">1 Seconds</MenuItem>
-                <MenuItem value="2">2 Seconds</MenuItem>
-                <MenuItem value="3">3 Seconds</MenuItem>
-                <MenuItem value="4">4 Seconds</MenuItem>
-                <MenuItem value="5">5 Seconds</MenuItem>
-                <MenuItem value="6">6 Seconds</MenuItem>
-                <MenuItem value="7">7 Seconds</MenuItem>
-                <MenuItem value="8">8 Seconds</MenuItem>
-                <MenuItem value="9">9 Seconds</MenuItem>
-                <MenuItem value="10">10 Seconds</MenuItem>
-                <MenuItem value="20">20 Seconds</MenuItem>
-                <MenuItem value="30">30 Seconds</MenuItem>
-                <MenuItem value="40">40 Seconds</MenuItem>
-                <MenuItem value="50">50 Seconds</MenuItem>
-                <MenuItem value="60">1 Minute</MenuItem>
-                <MenuItem value="120">2 Minutes</MenuItem>
-                <MenuItem value="180">3 Minutes</MenuItem>
-                <MenuItem value="240">4 Minutes</MenuItem>
-                <MenuItem value="255">Indefinitely</MenuItem>
-              </Select>
-            </FormControl>
+            <Typography gutterBottom>Duration Level</Typography>
+            <Grid container spacing={2}>
+              <Grid item>
+                <TimelapseIcon />
+              </Grid>
+              <Grid item xs>
+                <Slider
+                  value={this.state.duration}
+                  valueLabelDisplay="auto"
+                  valueLabelFormat={this.durationFormater}
+                  marks={[5, 10, 15, 20, 30, 45, 60, 120, 180, 240, 255]}
+                  min={1}
+                  max={255}
+                  onChange={this.setValue("duration")}
+                  ValueLabelComponent={ValueLabelComponent}
+                />
+              </Grid>
+              <Grid item>
+                <InfiniteIcon />
+              </Grid>
+            </Grid>
             <FormControl fullWidth={true} margin="normal">
               <InputLabel>Effect</InputLabel>
               <Select
@@ -254,18 +318,26 @@ class App extends React.Component {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton edge="end" onClick={this.handleCopy}>
-                      <SvgIcon>
-                        <svg viewBox="0 0 24 24">
-                          <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" />
-                        </svg>
-                      </SvgIcon>
-                    </IconButton>
+                    <Tooltip title="Copy to Clipboard">
+                      <IconButton edge="end" onClick={this.handleCopy}>
+                        <SvgIcon>
+                          <svg viewBox="0 0 24 24">
+                            <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" />
+                          </svg>
+                        </SvgIcon>
+                      </IconButton>
+                    </Tooltip>
                   </InputAdornment>
                 )
               }}
             />
           </div>
+        </div>
+        <div className={this.props.classes.credits}>
+          <Typography>
+            <a href="https://www.inovelli.com/">https://www.inovelli.com/</a>
+          </Typography>
+          <Typography variant="caption">Tool By: @nathanfiscus</Typography>
         </div>
       </div>
     );
