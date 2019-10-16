@@ -23,7 +23,7 @@ import TimelapseIcon from "@material-ui/icons/Timelapse";
 import lzw30sn from "./Inovelli-LZW30-SN.gif";
 let Gradient = require("gradient2");
 let gradient = new Gradient({
-  colors: ["red", "orange", "yellow", "green", "cyan", "blue", "violet", "red"],
+  colors: ["orangered", "yellow", "green", "cyan", "blue", "violet", "red"],
   steps: 256,
   model: "rgb"
 });
@@ -112,7 +112,7 @@ const styles = theme => ({
     height: "10px",
     width: "100%",
     background:
-      "linear-gradient(to right, red, orange , yellow, green, cyan, blue, violet,red)"
+      "linear-gradient(to right, orangered, yellow, green, cyan, blue, violet,red)"
   },
   forever: {
     animationIterationCount: "infinite"
