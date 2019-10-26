@@ -1,12 +1,12 @@
 {
   "name": "inovelli-notification-util",
-  "homepage": "https://nathanfiscus.github.io/inovelli-notfication-calc",
-  "repository": "https://github.com/nathanfiscus/inovelli-notfication-calc",
+  "homepage": "https://nathanfiscus.github.io/inovelli-notification-calc",
+  "repository": "https://github.com/nathanfiscus/inovelli-notification-calc",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.5.0",
-    "@material-ui/icons": "^4.4.3",
+    "@material-ui/icons": "^4.5.1",
     "gh-pages": "^2.1.1",
     "gradient2": "^1.0.3",
     "react": "^16.10.2",
