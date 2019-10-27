@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "3f5bce8ff51f2a771da36a481e1cac79",
+    "revision": "504c2d62572557573c02abe502ac3ac7",
     "url": "/inovelli-notification-calc/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/inovelli-notification-calc/static/js/2.9dea3986.chunk.js"
   },
   {
-    "revision": "48e5c13aa785c6cf21dd",
-    "url": "/inovelli-notification-calc/static/js/main.ad144d8f.chunk.js"
+    "revision": "dfae191950da463c5012",
+    "url": "/inovelli-notification-calc/static/js/main.00179d89.chunk.js"
   },
   {
     "revision": "76902d835905de61ea91",
