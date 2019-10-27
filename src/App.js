@@ -86,7 +86,8 @@ const styles = theme => ({
   "@global": {
     "@keyframes pulse": {
       "50%": {
-        background: "#CCCCCC"
+        background: "#CCCCCC",
+        boxShadow: "0px 0px 0px 0px"
       }
     },
     "@keyframes blink": {
@@ -111,7 +112,8 @@ const styles = theme => ({
     height: "39px",
     backgroundColor: "#CCCCCC",
     bottom: "162px",
-    right: "129px"
+    right: "129px",
+    boxShadow: "0px 0px 5px 0px"
   },
   colorHelper: {
     height: "10px",
@@ -144,6 +146,9 @@ const styles = theme => ({
     left: "0",
     padding: "15px",
     justifyContent: "space-between"
+  },
+  optionsContainer: {
+    padding: theme.spacing(0, 3)
   }
 });
 
@@ -236,7 +241,7 @@ class App extends React.Component {
                 <Typography variant="h6" style={{ flexGrow: "1" }}>
                   Inovelli LED Notification Calculator
                 </Typography>
-                <div>
+                <div style={{ flexShrink: "0", flexGrow: "0" }}>
                   <Tooltip title="Light\Dark Theme">
                     <IconButton
                       color="inherit"
@@ -269,10 +274,20 @@ class App extends React.Component {
               <div className={this.props.classes.switchContainer}>
                 <img alt="Inovelli-LZW30-SN" src={lzw30sn} />
                 <span
+                  id="frosted-glass-notification-led"
+                  className={this.props.classes.notificationLED}
+                  style={{
+                    opacity: "0.25",
+                    zIndex: 3,
+                    backgroundColor: "#ffffff"
+                  }}
+                />
+                <span
                   id="notification-led"
                   className={this.props.classes.notificationLED + effectCSS}
                   style={{
                     backgroundColor: LED_COLORS[parseInt(this.state.color)],
+                    color: LED_COLORS[parseInt(this.state.color)],
                     zIndex: "2",
                     ...effectStyles
                   }}
@@ -282,7 +297,7 @@ class App extends React.Component {
                   className={this.props.classes.notificationLED}
                 />
               </div>
-              <div>
+              <div className={this.props.classes.optionsContainer}>
                 <Typography variant="h4" gutterBottom>
                   Options
                 </Typography>
@@ -346,7 +361,7 @@ class App extends React.Component {
                   >
                     {/* <MenuItem value="0">Off</MenuItem> */}
                     <MenuItem value="1">Solid</MenuItem>
-                    <MenuItem value="2">Strobe\Fast Blink</MenuItem>
+                    <MenuItem value="2">Fast Blink</MenuItem>
                     <MenuItem value="3">Slow Blink</MenuItem>
                     <MenuItem value="4">Pulse</MenuItem>
                   </Select>
