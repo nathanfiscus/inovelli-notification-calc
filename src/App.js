@@ -112,8 +112,7 @@ const styles = theme => ({
     height: "39px",
     backgroundColor: "#CCCCCC",
     bottom: "162px",
-    right: "129px",
-    boxShadow: "0px 0px 5px 0px"
+    right: "129px"
   },
   colorHelper: {
     height: "10px",
@@ -289,6 +288,7 @@ class App extends React.Component {
                     backgroundColor: LED_COLORS[parseInt(this.state.color)],
                     color: LED_COLORS[parseInt(this.state.color)],
                     zIndex: "2",
+                    boxShadow: "0px 0px 5px 0px",
                     ...effectStyles
                   }}
                 />
