@@ -1,5 +1,7 @@
 # Inovelli LED Notification Calculator
 
+https://nathanfiscus.github.io/inovelli-notification-calc/
+
 This is a simple application to assist in calculating the configuration values to send to your Inovelli v2 ZWave Light switches. The values calculated by this tool can be used by any compatible ZWave controller.
 
 # PWA!
