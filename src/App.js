@@ -32,7 +32,21 @@ import { DIMMER_EFFECTS, ONOFF_EFFECTS } from "./Effects";
 
 let Gradient = require("gradient2");
 let gradient = new Gradient({
-  colors: ["orangered", "yellow", "green", "cyan", "blue", "violet", "red"],
+  colors: [
+    "rgb(255,0,0)",
+    "rgb(255,125,0)",
+    "rgb(255,255,0)",
+    "rgb(125,255,0)",
+    "rgb(0,255,0)",
+    "rgb(0,255,125)",
+    "rgb(0,255,255)",
+    "rgb(0,125,255)",
+    "rgb(0,0,255)",
+    "rgb(125,0,255)",
+    "rgb(255,0,255)",
+    "rgb(255,0,125)",
+    "rgb(255,0,0)"
+  ],
   steps: 256,
   model: "rgb"
 });
@@ -102,7 +116,7 @@ const styles = theme => ({
     height: "10px",
     width: "100%",
     background:
-      "linear-gradient(to right, orangered, yellow, green, cyan, blue, violet,red)"
+      "linear-gradient(to right, rgb(255,0,0), rgb(255,125,0), rgb(255,255,0), rgb(125,255,0), rgb(0,255,0), rgb(0,255,125), rgb(0,255,255), rgb(0,125,255), rgb(0,0,255), rgb(125,0,255), rgb(255,0,255), rgb(255,0,125), rgb(255,0,0))"
   },
   credits: {
     display: "flex",
