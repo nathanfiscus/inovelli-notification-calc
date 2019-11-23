@@ -152,10 +152,10 @@ class App extends React.Component {
       color: 1,
       duration: 255,
       level: 10,
-      effect: "2",
+      effect: "1",
       value: "33491457",
       aboutDialogOpen: false,
-      type: "dimmer"
+      type: "onoff"
     };
     this.configValue = React.createRef();
   }
