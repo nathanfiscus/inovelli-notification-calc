@@ -27,6 +27,9 @@ import InfoOutlined from "@material-ui/icons/InfoOutlined";
 import AboutDialog from "./AboutDialog";
 
 import lzw30sn from "./Inovelli-LZW30-SN.gif";
+import NotificationLED from "./NotificationLED";
+import { DIMMER_EFFECTS, ONOFF_EFFECTS } from "./Effects";
+
 let Gradient = require("gradient2");
 let gradient = new Gradient({
   colors: ["orangered", "yellow", "green", "cyan", "blue", "violet", "red"],
@@ -83,17 +86,6 @@ ValueLabelComponent.propTypes = {
 };
 
 const styles = theme => ({
-  "@global": {
-    "@keyframes pulse": {
-      "50%": {
-        background: "#CCCCCC",
-        boxShadow: "0px 0px 0px 0px"
-      }
-    },
-    "@keyframes blink": {
-      "50%": { opacity: "0.0" }
-    }
-  },
   switchWrapper: {
     display: "flex",
     flexWrap: "wrap",
@@ -106,36 +98,11 @@ const styles = theme => ({
   switchContainer: {
     position: "relative"
   },
-  notificationLED: {
-    position: "absolute",
-    width: "7px",
-    height: "39px",
-    backgroundColor: "#CCCCCC",
-    bottom: "162px",
-    right: "129px"
-  },
   colorHelper: {
     height: "10px",
     width: "100%",
     background:
       "linear-gradient(to right, orangered, yellow, green, cyan, blue, violet,red)"
-  },
-  forever: {
-    animationIterationCount: "infinite"
-  },
-  strobe: {
-    animationDuration: "1s",
-    animationName: "pulse"
-  },
-  fastBlink: {
-    animationDuration: "0.80s",
-    animationName: "blink",
-    animationTimingFunction: "step-start"
-  },
-  slowBlink: {
-    animationDuration: "2s",
-    animationName: "blink",
-    animationTimingFunction: "step-start"
   },
   credits: {
     display: "flex",
@@ -148,8 +115,35 @@ const styles = theme => ({
   },
   optionsContainer: {
     padding: theme.spacing(0, 3)
+  },
+  switchPicker: {
+    marginBottom: theme.spacing(3)
   }
 });
+
+//Might Move to this calc in the future. More straight forward
+
+// const longToByteArray = function(/*long*/ long) {
+//   // we want to represent the input as a 8-bytes array
+//   var byteArray = [0, 0, 0, 0];
+
+//   for (var index = 0; index < byteArray.length; index++) {
+//     var byte = long & 0xff;
+//     byteArray[index] = byte;
+//     long = (long - byte) / 256;
+//   }
+
+//   return byteArray;
+// };
+
+// const byteArrayToLong = function(/*byte[]*/ byteArray) {
+//   var value = 0;
+//   for (var i = byteArray.length - 1; i >= 0; i--) {
+//     value = value * 256 + byteArray[i];
+//   }
+
+//   return value;
+// };
 
 class App extends React.Component {
   constructor(props) {
@@ -158,23 +152,31 @@ class App extends React.Component {
       color: 1,
       duration: 255,
       level: 10,
-      effect: "1",
-      value: "33488897",
-      aboutDialogOpen: false
+      effect: "2",
+      value: "33491457",
+      aboutDialogOpen: false,
+      type: "dimmer"
     };
     this.configValue = React.createRef();
   }
 
   setValue = key => (e, v) => {
-    this.setState({ [key]: key !== "effect" ? v : e.target.value }, () => {
-      this.setState(lastState => ({
-        value:
-          parseInt(lastState.color) +
-          lastState.level * 256 +
-          lastState.duration * 65536 +
-          lastState.effect * 16777216
-      }));
-    });
+    this.setState(
+      { [key]: key !== "effect" && key !== "type" ? v : e.target.value },
+      () => {
+        if (this.state.type === "onoff" && this.state.effect === "5") {
+          this.setState({ effect: "1" });
+        }
+        //83823359
+        this.setState(lastState => ({
+          value:
+            parseInt(lastState.color) +
+            lastState.level * 256 +
+            lastState.duration * 65536 +
+            lastState.effect * 16777216
+        }));
+      }
+    );
   };
 
   openAboutDialog = () => {
@@ -208,28 +210,6 @@ class App extends React.Component {
   };
 
   render() {
-    let effectCSS = "";
-    let effectStyles = {};
-    effectStyles["opacity"] = this.state.level / 10;
-    switch (this.state.effect) {
-      case "2":
-        effectCSS += ` ${this.props.classes.fastBlink}`;
-        break;
-      case "3":
-        effectCSS += ` ${this.props.classes.slowBlink}`;
-        break;
-      case "4":
-        effectCSS += ` ${this.props.classes.strobe}`;
-        break;
-      default:
-        break;
-    }
-    switch (this.state.duration) {
-      default:
-        effectCSS += ` ${this.props.classes.forever}`;
-        break;
-    }
-
     return (
       <ThemeProvider>
         {({ setTheme, themeType }) => (
@@ -281,25 +261,33 @@ class App extends React.Component {
                     backgroundColor: "#ffffff"
                   }}
                 />
-                <span
-                  id="notification-led"
-                  className={this.props.classes.notificationLED + effectCSS}
+                <NotificationLED
                   style={{
-                    backgroundColor: LED_COLORS[parseInt(this.state.color)],
-                    color: LED_COLORS[parseInt(this.state.color)],
-                    zIndex: "2",
-                    boxShadow: "0px 0px 5px 0px",
-                    ...effectStyles
+                    bottom: "162px",
+                    right: "129px",
+                    position: "absolute"
                   }}
-                />
-                <span
-                  id="notification-led"
-                  className={this.props.classes.notificationLED}
+                  type={this.state.type}
+                  color={LED_COLORS[parseInt(this.state.color)]}
+                  effect={this.state.effect}
+                  level={this.state.level}
                 />
               </div>
               <div className={this.props.classes.optionsContainer}>
+                <div className={this.props.classes.switchPicker}>
+                  <FormControl fullWidth={true} margin="normal">
+                    <InputLabel>Switch Type</InputLabel>
+                    <Select
+                      value={this.state.type}
+                      onChange={this.setValue("type")}
+                    >
+                      <MenuItem value="onoff">Standard On/Off</MenuItem>
+                      <MenuItem value="dimmer">Dimmer</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
                 <Typography variant="h4" gutterBottom>
-                  Options
+                  LED Options
                 </Typography>
                 <Typography gutterBottom>Color</Typography>
                 <div className={this.props.classes.colorHelper} />
@@ -360,10 +348,45 @@ class App extends React.Component {
                     onChange={this.setValue("effect")}
                   >
                     {/* <MenuItem value="0">Off</MenuItem> */}
-                    <MenuItem value="1">Solid</MenuItem>
-                    <MenuItem value="2">Fast Blink</MenuItem>
-                    <MenuItem value="3">Slow Blink</MenuItem>
-                    <MenuItem value="4">Pulse</MenuItem>
+                    <MenuItem
+                      value={
+                        this.state.type === "dimmer"
+                          ? DIMMER_EFFECTS.SOLID
+                          : ONOFF_EFFECTS.SOLID
+                      }
+                    >
+                      Solid
+                    </MenuItem>
+                    <MenuItem
+                      value={
+                        this.state.type === "dimmer"
+                          ? DIMMER_EFFECTS.FAST_BLINK
+                          : ONOFF_EFFECTS.FAST_BLINK
+                      }
+                    >
+                      Fast Blink
+                    </MenuItem>
+                    <MenuItem
+                      value={
+                        this.state.type === "dimmer"
+                          ? DIMMER_EFFECTS.SLOW_BLINK
+                          : ONOFF_EFFECTS.SLOW_BLINK
+                      }
+                    >
+                      Slow Blink
+                    </MenuItem>
+                    <MenuItem
+                      value={
+                        this.state.type === "dimmer"
+                          ? DIMMER_EFFECTS.PULSE
+                          : ONOFF_EFFECTS.PULSE
+                      }
+                    >
+                      Pulse
+                    </MenuItem>
+                    {this.state.type === "dimmer" && (
+                      <MenuItem value={DIMMER_EFFECTS.CHASE}>Chase</MenuItem>
+                    )}
                   </Select>
                 </FormControl>
                 <TextField
