@@ -35,18 +35,6 @@ class AboutDialog extends React.Component {
           <List dense={true}>
             <ListItem>
               <ListItemText
-                primary="Inovelli LZW30"
-                secondary="On/Off Switch"
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemText
-                primary="Inovelli LZW31"
-                secondary="Dimmer Switch"
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemText
                 primary="Inovelli LZW30-SN-1"
                 secondary="On/Off Switch + Scenes"
               />
