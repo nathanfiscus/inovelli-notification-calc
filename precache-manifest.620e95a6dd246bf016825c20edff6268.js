@@ -1,15 +1,15 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "820ec268c112fc7aefaec77b62e262e3",
+    "revision": "2bdcac6c367178da1f372a175dc0b064",
     "url": "/inovelli-notification-calc/index.html"
   },
   {
-    "revision": "319eef5b25af5bb0bf50",
-    "url": "/inovelli-notification-calc/static/js/2.9dea3986.chunk.js"
+    "revision": "a751f4f5b07dd41d4da7",
+    "url": "/inovelli-notification-calc/static/js/2.cb4a1580.chunk.js"
   },
   {
-    "revision": "0ed1fdb9021fb659ea40",
-    "url": "/inovelli-notification-calc/static/js/main.5d0c3a21.chunk.js"
+    "revision": "ad8f001b87d2b9af65c6",
+    "url": "/inovelli-notification-calc/static/js/main.6d8eeb71.chunk.js"
   },
   {
     "revision": "76902d835905de61ea91",

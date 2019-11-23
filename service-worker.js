@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/inovelli-notification-calc/precache-manifest.2ec7fa2fa4f182197fca8c45f5794b82.js"
+  "/inovelli-notification-calc/precache-manifest.620e95a6dd246bf016825c20edff6268.js"
 );
 
 self.addEventListener('message', (event) => {
