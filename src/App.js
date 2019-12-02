@@ -8,27 +8,23 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-  Slider,
-  TextField,
-  InputAdornment,
   IconButton,
   SvgIcon,
-  Grid,
   Tooltip,
   AppBar,
-  Toolbar
+  Toolbar,
+  Tabs,
+  Tab
 } from "@material-ui/core";
-import Brightness0 from "@material-ui/icons/Brightness2";
-import Brightness7 from "@material-ui/icons/Brightness7";
-import InfiniteIcon from "@material-ui/icons/AllInclusive";
-import TimelapseIcon from "@material-ui/icons/Timelapse";
 import ThemeProvider from "./ThemeProvider";
 import InfoOutlined from "@material-ui/icons/InfoOutlined";
 import AboutDialog from "./AboutDialog";
-
-import lzw30sn from "./Inovelli-LZW30-SN.gif";
-import NotificationLED from "./NotificationLED";
-import { DIMMER_EFFECTS, ONOFF_EFFECTS } from "./Effects";
+import Switch from "./Switch";
+import NotificationCalc from "./NotificationCalc";
+import SceneTable from "./SceneTable";
+import StandardLEDTools from "./StandardLEDTools";
+import TuneIcon from "@material-ui/icons/Tune";
+import OptionsDialog from "./Options";
 
 let Gradient = require("gradient2");
 let gradient = new Gradient({
@@ -53,58 +49,13 @@ let gradient = new Gradient({
 
 const LED_COLORS = gradient.toArray("hex");
 
-const durationFormater = val => {
-  switch (val) {
-    case 255:
-      return "Forever";
-    case 1:
-      return "1 second";
-    default:
-      if (val > 59) {
-        return `${Math.floor(val / 60)} minutes ${val % 60} seconds`;
-      } else {
-        return `${val} seconds`;
-      }
-  }
-};
-
-function ValueLabelComponent(props) {
-  const { children, open, value } = props;
-
-  const popperRef = React.useRef(null);
-  React.useEffect(() => {
-    if (popperRef.current) {
-      popperRef.current.update();
-    }
-  });
-
-  return (
-    <Tooltip
-      PopperProps={{
-        popperRef
-      }}
-      open={open}
-      enterTouchDelay={0}
-      placement="top"
-      title={durationFormater(value)}
-    >
-      {children}
-    </Tooltip>
-  );
-}
-
-ValueLabelComponent.propTypes = {
-  children: PropTypes.element.isRequired,
-  open: PropTypes.bool.isRequired,
-  value: PropTypes.number.isRequired
-};
-
 const styles = theme => ({
   switchWrapper: {
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-start",
+    paddingTop: theme.spacing(3),
     "&>*": {
       minWidth: "400px"
     }
@@ -137,18 +88,18 @@ const styles = theme => ({
 
 //Might Move to this calc in the future. More straight forward
 
-// const longToByteArray = function(/*long*/ long) {
-//   // we want to represent the input as a 8-bytes array
-//   var byteArray = [0, 0, 0, 0];
+const longToByteArray = function(/*long*/ long) {
+  // we want to represent the input as a 8-bytes array
+  var byteArray = [0, 0, 0, 0];
 
-//   for (var index = 0; index < byteArray.length; index++) {
-//     var byte = long & 0xff;
-//     byteArray[index] = byte;
-//     long = (long - byte) / 256;
-//   }
+  for (var index = 0; index < byteArray.length; index++) {
+    var byte = long & 0xff;
+    byteArray[index] = byte;
+    long = (long - byte) / 256;
+  }
 
-//   return byteArray;
-// };
+  return byteArray;
+};
 
 // const byteArrayToLong = function(/*byte[]*/ byteArray) {
 //   var value = 0;
@@ -169,15 +120,27 @@ class App extends React.Component {
       effect: "1",
       value: "33491457",
       aboutDialogOpen: false,
-      type: "onoff"
+      type: "onoff",
+      tab: 0,
+      highlight: null,
+      standardColor: 1,
+      standardBrightness: 10
     };
-    this.configValue = React.createRef();
   }
 
-  setValue = key => (e, v) => {
-    this.setState(
-      { [key]: key !== "effect" && key !== "type" ? v : e.target.value },
-      () => {
+  setValue = (param, value) => {
+    if (param === "all") {
+      this.setState(value, () => {
+        this.setState(lastState => ({
+          value:
+            parseInt(lastState.color) +
+            lastState.level * 256 +
+            lastState.duration * 65536 +
+            lastState.effect * 16777216
+        }));
+      });
+    } else {
+      this.setState({ [param]: value }, () => {
         if (this.state.type === "onoff" && this.state.effect === "5") {
           this.setState({ effect: "1" });
         }
@@ -189,8 +152,12 @@ class App extends React.Component {
             lastState.duration * 65536 +
             lastState.effect * 16777216
         }));
-      }
-    );
+      });
+    }
+  };
+
+  setSwitchType = e => {
+    this.setState({ type: e.target.value });
   };
 
   openAboutDialog = () => {
@@ -201,38 +168,35 @@ class App extends React.Component {
     this.setState({ aboutDialogOpen: false });
   };
 
-  handleCopy = () => {
-    if (this.configValue.current) {
-      this.configValue.current.select();
-      document.execCommand("copy");
-    }
+  tabChange = (e, value) => {
+    this.setState({ tab: value });
   };
 
-  durationFormater = val => {
-    switch (val) {
-      case 255:
-        return "Forever";
-      case 1:
-        return "1 second";
-      default:
-        if (val > 59) {
-          return `${Math.floor(val / 60)}${val % 60} seconds`;
-        } else {
-          return `${val} seconds`;
-        }
-    }
+  onSceneTrigger = scene => {
+    this.setState({
+      highlight: scene,
+      tab: scene !== undefined ? 2 : this.state.tab
+    });
+  };
+
+  openOptions = () => {
+    this.setState({ optionsDialogOpen: true });
+  };
+
+  closeOptions = () => {
+    this.setState({ optionsDialogOpen: false });
   };
 
   render() {
     return (
       <ThemeProvider>
-        {({ setTheme, themeType }) => (
+        {({ setTheme, themeType, format, setFormat }) => (
           <div className={this.props.classes.root}>
             <CssBaseline />
             <AppBar position="static">
               <Toolbar>
                 <Typography variant="h6" style={{ flexGrow: "1" }}>
-                  Inovelli LED Notification Calculator
+                  Inovelli Toolbox
                 </Typography>
                 <div style={{ flexShrink: "0", flexGrow: "0" }}>
                   <Tooltip title="Light\Dark Theme">
@@ -255,6 +219,11 @@ class App extends React.Component {
                       </SvgIcon>
                     </IconButton>
                   </Tooltip>
+                  <Tooltip title="Options">
+                    <IconButton color="inherit" onClick={this.openOptions}>
+                      <TuneIcon />
+                    </IconButton>
+                  </Tooltip>
                   <Tooltip title="About">
                     <IconButton color="inherit" onClick={this.openAboutDialog}>
                       <InfoOutlined />
@@ -264,27 +233,25 @@ class App extends React.Component {
               </Toolbar>
             </AppBar>
             <div className={this.props.classes.switchWrapper}>
-              <div className={this.props.classes.switchContainer}>
-                <img alt="Inovelli-LZW30-SN" src={lzw30sn} />
-                <span
-                  id="frosted-glass-notification-led"
-                  className={this.props.classes.notificationLED}
-                  style={{
-                    opacity: "0.25",
-                    zIndex: 3,
-                    backgroundColor: "#ffffff"
-                  }}
-                />
-                <NotificationLED
-                  style={{
-                    bottom: "162px",
-                    right: "129px",
-                    position: "absolute"
-                  }}
+              <div>
+                <Switch
                   type={this.state.type}
-                  color={LED_COLORS[parseInt(this.state.color)]}
-                  effect={this.state.effect}
-                  level={this.state.level}
+                  color={
+                    LED_COLORS[
+                      parseInt(
+                        this.state.tab
+                          ? this.state.color
+                          : this.state.standardColor
+                      )
+                    ]
+                  }
+                  effect={this.state.tab ? this.state.effect : "1"}
+                  level={
+                    this.state.tab
+                      ? this.state.level
+                      : this.state.standardBrightness
+                  }
+                  onSceneTriggered={this.onSceneTrigger}
                 />
               </div>
               <div className={this.props.classes.optionsContainer}>
@@ -293,146 +260,57 @@ class App extends React.Component {
                     <InputLabel>Switch Type</InputLabel>
                     <Select
                       value={this.state.type}
-                      onChange={this.setValue("type")}
+                      onChange={this.setSwitchType}
                     >
                       <MenuItem value="onoff">Standard On/Off</MenuItem>
                       <MenuItem value="dimmer">Dimmer</MenuItem>
                     </Select>
                   </FormControl>
                 </div>
-                <Typography variant="h4" gutterBottom>
-                  LED Options
-                </Typography>
-                <Typography gutterBottom>Color</Typography>
-                <div className={this.props.classes.colorHelper} />
-                <Slider
-                  defaultValue={1}
-                  aria-labelledby="discrete-slider"
-                  valueLabelDisplay="auto"
-                  step={1}
-                  min={1}
-                  max={255}
-                  value={this.state.color}
-                  onChange={this.setValue("color")}
-                />
-
-                <Typography gutterBottom>Brightness Level</Typography>
-                <Grid container spacing={2}>
-                  <Grid item>
-                    <Brightness0 />
-                  </Grid>
-                  <Grid item xs>
-                    <Slider
-                      value={this.state.level}
-                      valueLabelDisplay="auto"
-                      min={0}
-                      max={10}
-                      onChange={this.setValue("level")}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <Brightness7 />
-                  </Grid>
-                </Grid>
-                <Typography gutterBottom>Duration</Typography>
-                <Grid container spacing={2}>
-                  <Grid item>
-                    <TimelapseIcon />
-                  </Grid>
-                  <Grid item xs>
-                    <Slider
-                      value={this.state.duration}
-                      valueLabelDisplay="auto"
-                      valueLabelFormat={this.durationFormater}
-                      marks={[5, 10, 15, 20, 30, 45, 60, 120, 180, 240, 255]}
-                      min={1}
-                      max={255}
-                      onChange={this.setValue("duration")}
-                      ValueLabelComponent={ValueLabelComponent}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <InfiniteIcon />
-                  </Grid>
-                </Grid>
-                <FormControl fullWidth={true} margin="normal">
-                  <InputLabel>Effect</InputLabel>
-                  <Select
-                    value={this.state.effect}
-                    onChange={this.setValue("effect")}
-                  >
-                    {/* <MenuItem value="0">Off</MenuItem> */}
-                    <MenuItem
-                      value={
-                        this.state.type === "dimmer"
-                          ? DIMMER_EFFECTS.SOLID
-                          : ONOFF_EFFECTS.SOLID
-                      }
-                    >
-                      Solid
-                    </MenuItem>
-                    <MenuItem
-                      value={
-                        this.state.type === "dimmer"
-                          ? DIMMER_EFFECTS.FAST_BLINK
-                          : ONOFF_EFFECTS.FAST_BLINK
-                      }
-                    >
-                      Fast Blink
-                    </MenuItem>
-                    <MenuItem
-                      value={
-                        this.state.type === "dimmer"
-                          ? DIMMER_EFFECTS.SLOW_BLINK
-                          : ONOFF_EFFECTS.SLOW_BLINK
-                      }
-                    >
-                      Slow Blink
-                    </MenuItem>
-                    <MenuItem
-                      value={
-                        this.state.type === "dimmer"
-                          ? DIMMER_EFFECTS.PULSE
-                          : ONOFF_EFFECTS.PULSE
-                      }
-                    >
-                      Pulse
-                    </MenuItem>
-                    {this.state.type === "dimmer" && (
-                      <MenuItem value={DIMMER_EFFECTS.CHASE}>Chase</MenuItem>
-                    )}
-                  </Select>
-                </FormControl>
-                <TextField
-                  style={{ marginTop: "60px" }}
-                  value={this.state.value}
-                  readOnly={true}
-                  label="Configuration Value"
-                  fullWidth={true}
-                  margin="normal"
-                  variant="outlined"
-                  inputRef={this.configValue}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <Tooltip title="Copy to Clipboard">
-                          <IconButton edge="end" onClick={this.handleCopy}>
-                            <SvgIcon>
-                              <svg viewBox="0 0 24 24">
-                                <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" />
-                              </svg>
-                            </SvgIcon>
-                          </IconButton>
-                        </Tooltip>
-                      </InputAdornment>
-                    )
-                  }}
-                />
+                <Tabs
+                  value={this.state.tab}
+                  indicatorColor="primary"
+                  onChange={this.tabChange}
+                  style={{ marginBottom: "10px" }}
+                >
+                  <Tab label="LED Color" />
+                  <Tab label="Notifications" />
+                  <Tab label="Scenes" />
+                </Tabs>
+                {this.state.tab === 1 && (
+                  <NotificationCalc
+                    color={this.state.color}
+                    level={this.state.level}
+                    duration={this.state.duration}
+                    effect={this.state.effect}
+                    value={this.state.value}
+                    type={this.state.type}
+                    onChange={this.setValue}
+                  />
+                )}
+                {this.state.tab === 2 && (
+                  <SceneTable highlight={this.state.highlight} />
+                )}
+                {this.state.tab === 0 && (
+                  <StandardLEDTools
+                    color={this.state.standardColor}
+                    brightness={this.state.standardBrightness}
+                    onChange={this.setValue}
+                  />
+                )}
               </div>
             </div>
             <AboutDialog
               open={this.state.aboutDialogOpen}
               onClose={this.closeAboutDialog}
+            />
+            <OptionsDialog
+              open={this.state.optionsDialogOpen}
+              onClose={this.closeOptions}
+              theme={themeType}
+              format={format}
+              setTheme={setTheme}
+              setFormat={setFormat}
             />
           </div>
         )}
