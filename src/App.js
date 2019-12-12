@@ -118,7 +118,7 @@ class App extends React.Component {
       duration: 255,
       level: 10,
       effect: "1",
-      value: "33491457",
+      value: 33491457,
       aboutDialogOpen: false,
       type: "onoff",
       tab: 0,
@@ -190,7 +190,7 @@ class App extends React.Component {
   render() {
     return (
       <ThemeProvider>
-        {({ setTheme, themeType, format, setFormat }) => (
+        {({ setTheme, themeType, formatType, setFormat }) => (
           <div className={this.props.classes.root}>
             <CssBaseline />
             <AppBar position="static">
@@ -286,6 +286,7 @@ class App extends React.Component {
                     value={this.state.value}
                     type={this.state.type}
                     onChange={this.setValue}
+                    format={formatType}
                   />
                 )}
                 {this.state.tab === 2 && (
@@ -296,6 +297,8 @@ class App extends React.Component {
                     color={this.state.standardColor}
                     brightness={this.state.standardBrightness}
                     onChange={this.setValue}
+                    format={formatType}
+                    type={this.state.type}
                   />
                 )}
               </div>
@@ -308,7 +311,7 @@ class App extends React.Component {
               open={this.state.optionsDialogOpen}
               onClose={this.closeOptions}
               theme={themeType}
-              format={format}
+              format={formatType}
               setTheme={setTheme}
               setFormat={setFormat}
             />

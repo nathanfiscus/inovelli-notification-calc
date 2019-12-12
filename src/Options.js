@@ -46,11 +46,10 @@ class OptionsDialog extends React.PureComponent {
             <Select
               value={this.props.format}
               onChange={this.handleFormatChange}
-              disabled={true}
             >
-              <MenuItem value="decimal">Decimal</MenuItem>
-              <MenuItem value="hex">Hex</MenuItem>
-              <MenuItem value="binary">Binary</MenuItem>
+              <MenuItem value="10">Decimal</MenuItem>
+              <MenuItem value="16">Hex</MenuItem>
+              <MenuItem value="2">Binary</MenuItem>
             </Select>
           </FormControl>
         </DialogContent>

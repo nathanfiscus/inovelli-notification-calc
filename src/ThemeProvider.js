@@ -8,10 +8,10 @@ class ThemeProvider extends React.Component {
     super(props);
     this.state = {
       themeType: window.localStorage.themeType || "light",
-      format: window.localStorage.format || "decimal",
+      formatType: window.localStorage.formatType || "10",
       setFormat: format => {
-        this.setState({ format: format });
-        window.localStorage.setItem("format", format);
+        this.setState({ formatType: format });
+        window.localStorage.setItem("formatType", format);
       },
       setTheme: theme => {
         if (theme === "light" || theme === "dark") {

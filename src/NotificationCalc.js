@@ -13,7 +13,9 @@ import {
   IconButton,
   SvgIcon,
   Grid,
-  Tooltip
+  Tooltip,
+  Menu,
+  Snackbar
 } from "@material-ui/core";
 import Brightness0 from "@material-ui/icons/Brightness2";
 import Brightness7 from "@material-ui/icons/Brightness7";
@@ -23,6 +25,13 @@ import { DIMMER_EFFECTS, ONOFF_EFFECTS } from "./Effects";
 import ValueLabelTooltip from "./ValueLabelTooltip";
 import SettingsBackupRestoreIcon from "@material-ui/icons/SettingsBackupRestore";
 import DecoderDialog from "./DecoderDialog";
+import Slide from "@material-ui/core/Slide";
+import copyToClipboard from "./ClipboardAccess";
+import YAML from "json-to-pretty-yaml";
+
+function SlideTransition(props) {
+  return <Slide {...props} direction="up" />;
+}
 
 const styles = theme => ({
   colorHelper: {
@@ -60,11 +69,11 @@ const longToByteArray = function(/*long*/ long) {
 
 class NotificationCalc extends React.Component {
   static propTypes = {
-    color: PropTypes.number,
-    level: PropTypes.number,
-    duration: PropTypes.number,
-    effect: PropTypes.number,
-    value: PropTypes.number,
+    color: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    level: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    duration: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    effect: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     onChange: PropTypes.func,
     type: PropTypes.string
   };
@@ -74,16 +83,34 @@ class NotificationCalc extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      decoderDialogOpen: false
+      decoderDialogOpen: false,
+      anchor: null,
+      snackbarOpen: false,
+      copyStatusText: ""
     };
     this.configValue = React.createRef();
   }
 
-  handleCopy = () => {
-    if (this.configValue.current) {
-      this.configValue.current.select();
-      document.execCommand("copy");
-    }
+  handleCopyNumber = () => {
+    this.setState({ anchor: null });
+    copyToClipboard(
+      this.props.value.toString(Number(this.props.format)),
+      this.handleOnCopy
+    );
+  };
+
+  handleCopyYAML = () => {
+    this.setState({ anchor: null });
+    copyToClipboard(
+      YAML.stringify({
+        parameter: this.props.type === "dimmer" ? 16 : 8,
+        value:
+          this.props.format === "10"
+            ? parseInt(this.props.value.toString(Number(this.props.format)))
+            : this.props.value.toString(Number(this.props.format))
+      }),
+      this.handleOnCopy
+    );
   };
 
   durationFormater = val => {
@@ -126,6 +153,24 @@ class NotificationCalc extends React.Component {
       value: value
     });
     this.setState({ decoderDialogOpen: false });
+  };
+
+  toggleMenu = e => {
+    const { target } = e;
+    this.setState(lastState => ({ anchor: lastState.anchor ? null : target }));
+  };
+
+  handleOnCopy = success => {
+    this.setState({
+      snackbarOpen: true,
+      copyStatusText: success
+        ? "Copied to Clipboard"
+        : "Unable to copy to clipboard. Check browser settings."
+    });
+  };
+
+  handleSnackbarClose = () => {
+    this.setState({ snackbarOpen: false });
   };
 
   render() {
@@ -237,9 +282,11 @@ class NotificationCalc extends React.Component {
         </FormControl>
         <TextField
           style={{ marginTop: "60px" }}
-          value={this.props.value}
+          value={this.props.value.toString(Number(this.props.format))}
           readOnly={true}
-          label="Configuration Value"
+          label={`Configuration Value (Parameter ${
+            this.props.type === "dimmer" ? 16 : 8
+          })`}
           fullWidth={true}
           margin="normal"
           variant="outlined"
@@ -248,7 +295,7 @@ class NotificationCalc extends React.Component {
             endAdornment: (
               <InputAdornment position="end">
                 <Tooltip title="Copy to Clipboard">
-                  <IconButton edge="end" onClick={this.handleCopy}>
+                  <IconButton edge="end" onClick={this.toggleMenu}>
                     <SvgIcon>
                       <svg viewBox="0 0 24 24">
                         <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" />
@@ -256,14 +303,38 @@ class NotificationCalc extends React.Component {
                     </SvgIcon>
                   </IconButton>
                 </Tooltip>
+                <Menu
+                  open={Boolean(this.state.anchor)}
+                  anchorEl={this.state.anchor}
+                  onClose={this.toggleMenu}
+                >
+                  <MenuItem onClick={this.handleCopyNumber}>
+                    Copy Value
+                  </MenuItem>
+                  <MenuItem onClick={this.handleCopyYAML}>
+                    Copy as YAML
+                  </MenuItem>
+                </Menu>
               </InputAdornment>
             )
           }}
+        />
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right"
+          }}
+          TransitionComponent={SlideTransition}
+          open={this.state.snackbarOpen}
+          autoHideDuration={4000}
+          onClose={this.handleSnackbarClose}
+          message={<span id="message-id">{this.state.copyStatusText}</span>}
         />
         <DecoderDialog
           open={this.state.decoderDialogOpen}
           onClose={this.handleDecoderDialogClose}
           onDecode={this.handleDecode}
+          format={this.props.format}
         />
       </div>
     );
