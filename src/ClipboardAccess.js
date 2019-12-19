@@ -1,18 +1,20 @@
-//ref: https://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript
+import * as clipboard from "clipboard-polyfill/dist/clipboard-polyfill.promise";
 
 export function fallbackCopyTextToClipboard(text, callback) {
   var textArea = document.createElement("textarea");
   textArea.value = text;
   textArea.style.position = "fixed"; //avoid scrolling to bottom
+  textArea.contentEditable = true;
+  textArea.readOnly = false;
   document.body.appendChild(textArea);
   textArea.focus();
   textArea.select();
 
   try {
     var successful = document.execCommand("copy");
-    callback(successful);
+    callback(successful, { message: "unable to execute copy command" });
   } catch (err) {
-    callback(false);
+    callback(false, err);
   }
 
   document.body.removeChild(textArea);
@@ -20,7 +22,14 @@ export function fallbackCopyTextToClipboard(text, callback) {
 
 export default function copyTextToClipboard(text, callback = () => {}) {
   if (!navigator.clipboard) {
-    fallbackCopyTextToClipboard(text, callback);
+    clipboard.writeText(text).then(
+      function() {
+        callback(true);
+      },
+      function(err) {
+        callback(false, err);
+      }
+    );
     return;
   }
   navigator.clipboard.writeText(text).then(
@@ -28,7 +37,7 @@ export default function copyTextToClipboard(text, callback = () => {}) {
       callback(true);
     },
     function(err) {
-      callback(false);
+      callback(false, err);
     }
   );
 }

@@ -67,7 +67,7 @@ class StandardLEDTools extends React.PureComponent {
     }));
   };
 
-  handleOnCopy = success => {
+  handleOnCopy = (success, err) => {
     this.setState({
       snackbarOpen: true,
       copyStatusText: success

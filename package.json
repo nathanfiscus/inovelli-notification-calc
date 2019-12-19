@@ -7,6 +7,7 @@
   "dependencies": {
     "@material-ui/core": "^4.5.0",
     "@material-ui/icons": "^4.5.1",
+    "clipboard-polyfill": "^2.8.6",
     "gh-pages": "^2.1.1",
     "gradient2": "^1.0.3",
     "json-to-pretty-yaml": "^1.2.2",

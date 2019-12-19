@@ -75,9 +75,13 @@ class SceneTable extends React.PureComponent {
             </TableBody>
           </Table>
         </div>
-        <Typography variant="caption" color="textSecondary">
+        <Typography
+          variant="caption"
+          color="textSecondary"
+          style={{ maxWidth: "400px" }}
+          component={"div"}
+        >
           Rows greyed out may require disabling the relay in order to function
-          <br />
           or may not be supported by all hubs.
         </Typography>
         <Snackbar

@@ -56,8 +56,12 @@ const styles = theme => ({
     justifyContent: "center",
     alignItems: "flex-start",
     paddingTop: theme.spacing(3),
+    marginBottom: theme.spacing(6),
     "&>*": {
-      minWidth: "400px"
+      minWidth: "400px",
+      "&:last-child": {
+        maxWidth: "480px"
+      }
     }
   },
   switchContainer: {
@@ -199,7 +203,7 @@ class App extends React.Component {
                   Inovelli Toolbox
                 </Typography>
                 <div style={{ flexShrink: "0", flexGrow: "0" }}>
-                  <Tooltip title="Light\Dark Theme">
+                  {/* <Tooltip title="Light\Dark Theme">
                     <IconButton
                       color="inherit"
                       onClick={() => {
@@ -218,7 +222,7 @@ class App extends React.Component {
                         )}
                       </SvgIcon>
                     </IconButton>
-                  </Tooltip>
+                  </Tooltip> */}
                   <Tooltip title="Options">
                     <IconButton color="inherit" onClick={this.openOptions}>
                       <TuneIcon />
@@ -266,17 +270,20 @@ class App extends React.Component {
                       <MenuItem value="dimmer">Dimmer</MenuItem>
                     </Select>
                   </FormControl>
+                  <Tabs
+                    value={this.state.tab}
+                    indicatorColor="primary"
+                    onChange={this.tabChange}
+                    style={{ marginBottom: "10px" }}
+                    variant="fullWidth"
+                    centered
+                  >
+                    <Tab label="LED" />
+                    <Tab label="Notifications" />
+                    <Tab label="Scenes" />
+                  </Tabs>
                 </div>
-                <Tabs
-                  value={this.state.tab}
-                  indicatorColor="primary"
-                  onChange={this.tabChange}
-                  style={{ marginBottom: "10px" }}
-                >
-                  <Tab label="LED Color" />
-                  <Tab label="Notifications" />
-                  <Tab label="Scenes" />
-                </Tabs>
+
                 {this.state.tab === 1 && (
                   <NotificationCalc
                     color={this.state.color}
