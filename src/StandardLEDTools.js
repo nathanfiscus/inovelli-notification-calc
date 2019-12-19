@@ -199,7 +199,7 @@ class StandardLEDTools extends React.PureComponent {
             Number(this.props.format || 10)
           )}
           readOnly={true}
-          label={`Color Value (Parameter ${
+          label={`Brightness Value (Parameter ${
             this.props.type === "dimmer" ? 14 : 6
           })`}
           fullWidth={true}
