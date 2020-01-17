@@ -113,21 +113,6 @@ class NotificationCalc extends React.Component {
     );
   };
 
-  durationFormater = val => {
-    switch (val) {
-      case 255:
-        return "Forever";
-      case 1:
-        return "1 second";
-      default:
-        if (val > 59) {
-          return `${Math.floor(val / 60)}${val % 60} seconds`;
-        } else {
-          return `${val} seconds`;
-        }
-    }
-  };
-
   setValue = key => (e, v) => {
     this.props.onChange(
       key,
@@ -184,7 +169,12 @@ class NotificationCalc extends React.Component {
           </Tooltip>
         </div>
         <Typography gutterBottom>Color</Typography>
-        <div className={this.props.classes.colorHelper} />
+        <div
+          className={this.props.classes.colorHelper}
+          style={{
+            filter: this.props.effect === "0" ? "grayscale(75%)" : undefined
+          }}
+        />
         <Slider
           defaultValue={1}
           aria-labelledby="discrete-slider"
@@ -194,6 +184,7 @@ class NotificationCalc extends React.Component {
           max={255}
           value={this.props.color}
           onChange={this.setValue("color")}
+          disabled={this.props.effect === "0"}
         />
 
         <Typography gutterBottom>Brightness Level</Typography>
@@ -208,6 +199,7 @@ class NotificationCalc extends React.Component {
               min={0}
               max={10}
               onChange={this.setValue("level")}
+              disabled={this.props.effect === "0"}
             />
           </Grid>
           <Grid item>
@@ -229,6 +221,7 @@ class NotificationCalc extends React.Component {
               max={255}
               onChange={this.setValue("duration")}
               ValueLabelComponent={ValueLabelTooltip}
+              disabled={this.props.effect === "0"}
             />
           </Grid>
           <Grid item>
@@ -238,7 +231,7 @@ class NotificationCalc extends React.Component {
         <FormControl fullWidth={true} margin="normal">
           <InputLabel>Effect</InputLabel>
           <Select value={this.props.effect} onChange={this.setValue("effect")}>
-            {/* <MenuItem value="0">Off</MenuItem> */}
+            <MenuItem value="0">Off (Notification Cleared)</MenuItem>
             <MenuItem
               value={
                 this.props.type === "dimmer"
