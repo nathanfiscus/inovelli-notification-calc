@@ -25,6 +25,7 @@ import SceneTable from "./SceneTable";
 import StandardLEDTools from "./StandardLEDTools";
 import TuneIcon from "@material-ui/icons/Tune";
 import OptionsDialog from "./Options";
+import Switches from "./Switches";
 
 let Gradient = require("gradient2");
 let gradient = new Gradient({
@@ -118,17 +119,18 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      color: 1,
-      duration: 255,
-      level: 10,
-      effect: "1",
-      value: 33491457,
       aboutDialogOpen: false,
-      type: "onoff",
+      optionsDialogOpen: false,
+      type: 0,
       tab: 0,
+      selectedLED: 0,
       highlight: null,
-      standardColor: 1,
-      standardBrightness: 10
+      ledConfigs: JSON.parse(
+        JSON.stringify(Switches[0].leds.map(l => l.default))
+      ),
+      notificationConfigs: JSON.parse(
+        JSON.stringify(Switches[0].leds.map(l => l.default))
+      )
     };
   }
 
@@ -160,8 +162,37 @@ class App extends React.Component {
     }
   };
 
+  setConfigValue = (key, attr, v) => {
+    console.log(key, attr, v);
+    this.setState(lastState => {
+      let config = lastState[key];
+      if (attr === "all") {
+        config[lastState.selectedLED] = { ...v };
+      } else {
+        config[lastState.selectedLED][attr] = v;
+      }
+      return { [key]: config };
+    });
+  };
+
   setSwitchType = e => {
-    this.setState({ type: e.target.value });
+    const configs = Switches[e.target.value].leds
+      .map(l => Object.assign({}, l.default))
+      .slice();
+    this.setState({
+      type: e.target.value,
+      selectedLED: 0,
+      ledConfigs: JSON.parse(
+        JSON.stringify(Switches[e.target.value].leds.map(l => l.default))
+      ),
+      notificationConfigs: JSON.parse(
+        JSON.stringify(Switches[e.target.value].leds.map(l => l.default))
+      )
+    });
+  };
+
+  setSelectedLED = e => {
+    this.setState({ selectedLED: e.target.value });
   };
 
   openAboutDialog = () => {
@@ -203,26 +234,6 @@ class App extends React.Component {
                   Inovelli Toolbox
                 </Typography>
                 <div style={{ flexShrink: "0", flexGrow: "0" }}>
-                  {/* <Tooltip title="Light\Dark Theme">
-                    <IconButton
-                      color="inherit"
-                      onClick={() => {
-                        setTheme(themeType === "dark" ? "light" : "dark");
-                      }}
-                    >
-                      <SvgIcon>
-                        {themeType === "light" ? (
-                          <svg viewBox="0 0 24 24">
-                            <path d="M20,11H23V13H20V11M1,11H4V13H1V11M13,1V4H11V1H13M4.92,3.5L7.05,5.64L5.63,7.05L3.5,4.93L4.92,3.5M16.95,5.63L19.07,3.5L20.5,4.93L18.37,7.05L16.95,5.63M12,6A6,6 0 0,1 18,12C18,14.22 16.79,16.16 15,17.2V19A1,1 0 0,1 14,20H10A1,1 0 0,1 9,19V17.2C7.21,16.16 6,14.22 6,12A6,6 0 0,1 12,6M14,21V22A1,1 0 0,1 13,23H11A1,1 0 0,1 10,22V21H14M11,18H13V15.87C14.73,15.43 16,13.86 16,12A4,4 0 0,0 12,8A4,4 0 0,0 8,12C8,13.86 9.27,15.43 11,15.87V18Z" />
-                          </svg>
-                        ) : (
-                          <svg viewBox="0 0 24 24">
-                            <path d="M12,2A7,7 0 0,1 19,9C19,11.38 17.81,13.47 16,14.74V17A1,1 0 0,1 15,18H9A1,1 0 0,1 8,17V14.74C6.19,13.47 5,11.38 5,9A7,7 0 0,1 12,2M9,21V20H15V21A1,1 0 0,1 14,22H10A1,1 0 0,1 9,21M12,4A5,5 0 0,0 7,9C7,11.05 8.23,12.81 10,13.58V16H14V13.58C15.77,12.81 17,11.05 17,9A5,5 0 0,0 12,4Z" />
-                          </svg>
-                        )}
-                      </SvgIcon>
-                    </IconButton>
-                  </Tooltip> */}
                   <Tooltip title="Options">
                     <IconButton color="inherit" onClick={this.openOptions}>
                       <TuneIcon />
@@ -239,22 +250,16 @@ class App extends React.Component {
             <div className={this.props.classes.switchWrapper}>
               <div>
                 <Switch
-                  type={this.state.type}
-                  color={
-                    LED_COLORS[
-                      parseInt(
-                        this.state.tab
-                          ? this.state.color
-                          : this.state.standardColor
-                      )
-                    ]
+                  leds={Switches[this.state.type].leds}
+                  paddles={Switches[this.state.type].paddles}
+                  configs={
+                    this.state.tab !== 0
+                      ? this.state.notificationConfigs
+                      : this.state.ledConfigs
                   }
-                  effect={this.state.tab ? this.state.effect : "1"}
-                  level={
-                    this.state.tab
-                      ? this.state.level
-                      : this.state.standardBrightness
-                  }
+                  scenes={Switches[this.state.type].scenes}
+                  effects={Switches[this.state.type].effects}
+                  images={Switches[this.state.type].images}
                   onSceneTriggered={this.onSceneTrigger}
                 />
               </div>
@@ -266,10 +271,28 @@ class App extends React.Component {
                       value={this.state.type}
                       onChange={this.setSwitchType}
                     >
-                      <MenuItem value="onoff">Standard On/Off</MenuItem>
-                      <MenuItem value="dimmer">Dimmer</MenuItem>
+                      {Switches.map((sw, index) => (
+                        <MenuItem key={sw.displayName} value={index}>
+                          {sw.displayName}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
+                  {Switches[this.state.type].leds.length > 1 && (
+                    <FormControl fullWidth={true} style={{ marginTop: "10px" }}>
+                      <InputLabel>LED</InputLabel>
+                      <Select
+                        value={this.state.selectedLED}
+                        onChange={this.setSelectedLED}
+                      >
+                        {Switches[this.state.type].leds.map((led, index) => (
+                          <MenuItem key={led.name} value={index}>
+                            {led.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  )}
                   <Tabs
                     value={this.state.tab}
                     indicatorColor="primary"
@@ -286,26 +309,33 @@ class App extends React.Component {
 
                 {this.state.tab === 1 && (
                   <NotificationCalc
-                    color={this.state.color}
-                    level={this.state.level}
-                    duration={this.state.duration}
-                    effect={this.state.effect}
-                    value={this.state.value}
-                    type={this.state.type}
-                    onChange={this.setValue}
+                    effects={Switches[this.state.type].effects}
+                    parameters={
+                      Switches[this.state.type].leds[this.state.selectedLED]
+                        .parameters
+                    }
+                    config={
+                      this.state.notificationConfigs[this.state.selectedLED]
+                    }
+                    onChange={this.setConfigValue}
                     format={formatType}
                   />
                 )}
                 {this.state.tab === 2 && (
-                  <SceneTable highlight={this.state.highlight} />
+                  <SceneTable
+                    highlight={this.state.highlight}
+                    scenes={Switches[this.state.type].scenes}
+                  />
                 )}
                 {this.state.tab === 0 && (
                   <StandardLEDTools
-                    color={this.state.standardColor}
-                    brightness={this.state.standardBrightness}
-                    onChange={this.setValue}
+                    parameters={
+                      Switches[this.state.type].leds[this.state.selectedLED]
+                        .parameters
+                    }
+                    config={this.state.ledConfigs[this.state.selectedLED]}
+                    onChange={this.setConfigValue}
                     format={formatType}
-                    type={this.state.type}
                   />
                 )}
               </div>

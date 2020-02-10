@@ -9,7 +9,6 @@ import {
   Typography,
   Snackbar
 } from "@material-ui/core";
-import Scenes from "./Scenes";
 import SceneRow from "./SceneRow";
 import Slide from "@material-ui/core/Slide";
 
@@ -20,7 +19,9 @@ function SlideTransition(props) {
 class SceneTable extends React.PureComponent {
   static propTypes = {};
 
-  static defaultProps = {};
+  static defaultProps = {
+    scenes: []
+  };
 
   constructor(props) {
     super(props);
@@ -57,16 +58,15 @@ class SceneTable extends React.PureComponent {
               </TableRow>
             </TableHead>
             <TableBody>
-              {Scenes.map((row, index) => {
+              {this.props.scenes.map((row, index) => {
                 const isHighlighted =
                   Object.values(this.props.highlight || {}).join(".") ===
                   Object.values(row).join(".");
-                const isDisabled = [0, 1, 11, 12, 13, 14].indexOf(index) > -1;
                 return (
                   <SceneRow
                     key={row.buttons}
                     isHighlighted={isHighlighted}
-                    isDisabled={isDisabled}
+                    isDisabled={row.disabled}
                     row={row}
                     onCopy={this.handleOnCopy}
                   />
