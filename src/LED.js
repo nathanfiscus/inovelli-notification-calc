@@ -37,7 +37,20 @@ const styles = theme => ({
     "@keyframes chase": {
       "0%": { bottom: "-60%" },
       "50%": { bottom: "30%" },
-      "100%": { bottom: "-60%" }
+      "100%": { bottom: "-65%" }
+    },
+    "@keyframes pulse_Shadow": {
+      "50%": {
+        boxShadow: "0px 0px 0px 0px"
+      }
+    },
+    "@keyframes blink_Shadow": {
+      "50%": { boxShadow: "unset" }
+    },
+    "@keyframes chase_Shadow": {
+      "0%": { boxShadow: "0px 0px 0px 0px" },
+      "50%": { boxShadow: "0px 0px 0px 0px" },
+      "100%": { boxShadow: "0px 0px 0px 0px" }
     }
   },
   notificationLED: {
@@ -51,7 +64,6 @@ const styles = theme => ({
   strobe: {
     animationDuration: "3.5s",
     animationName: "pulse"
-    //animationTimingFunction: "linear"
   },
   fastBlink: {
     animationDuration: "0.80s",
@@ -68,14 +80,35 @@ const styles = theme => ({
     animationName: "chase",
     position: "absolute",
     animationTimingFunction: "linear"
+  },
+  strobe_Shadow: {
+    animationDuration: "3.5s",
+    animationName: "pulse_Shadow"
+  },
+  fastBlink_Shadow: {
+    animationDuration: "0.80s",
+    animationName: "blink_Shadow",
+    animationTimingFunction: "step-start"
+  },
+  slowBlink_Shadow: {
+    animationDuration: "2s",
+    animationName: "blink_Shadow",
+    animationTimingFunction: "step-start"
+  },
+  chase_Shadow: {
+    animationDuration: "2s",
+    animationName: "chase_Shadow",
+    position: "absolute",
+    animationTimingFunction: "linear"
   }
 });
 
 class LED extends React.Component {
   render() {
     let effectCSS = "";
+    let effectCSS_Shadow = "";
     let effectStyles = {};
-    effectStyles["opacity"] = this.props.level / 10;
+    effectStyles["opacity"] = (this.props.level / 10) * 0.6;
     let effect = this.props.effects.find(i => i.value === this.props.effect);
     if (!effect) {
       effect = {};
@@ -83,15 +116,19 @@ class LED extends React.Component {
     switch (effect.name) {
       case "Fast Blink":
         effectCSS += ` ${this.props.classes.fastBlink}`;
+        effectCSS_Shadow += ` ${this.props.classes.fastBlink_Shadow}`;
         break;
       case "Slow Blink":
         effectCSS += ` ${this.props.classes.slowBlink}`;
+        effectCSS_Shadow += ` ${this.props.classes.slowBlink_Shadow}`;
         break;
       case "Pulse":
         effectCSS += ` ${this.props.classes.strobe}`;
+        effectCSS_Shadow += ` ${this.props.classes.strobe_Shadow}`;
         break;
       case "Chase":
         effectCSS += ` ${this.props.classes.chase}`;
+        effectCSS_Shadow += ` ${this.props.classes.chase_Shadow}`;
         effectStyles.backgroundImage = `linear-gradient(transparent,${
           LED_COLORS[this.props.color]
         },transparent)`;
@@ -103,6 +140,7 @@ class LED extends React.Component {
         break;
       case "Off (Notification Cleared)":
         effectStyles.backgroundColor = "unset";
+
         break;
       default:
         console.log(
@@ -114,14 +152,20 @@ class LED extends React.Component {
     effectStyles = { ...effectStyles, ...effect.styles };
 
     effectCSS += ` ${this.props.classes.forever}`;
+    effectCSS_Shadow += ` ${this.props.classes.forever}`;
 
     return (
       <div
-        className={this.props.classes.notificationLED}
+        className={this.props.classes.notificationLED + " " + effectCSS_Shadow}
         style={{
           ...this.props.style,
           overflow: "hidden",
-          position: "relative"
+          position: "relative",
+          boxShadow:
+            "0px 0px " +
+            Math.ceil(this.props.level / 4) +
+            "px 0px " +
+            LED_COLORS[this.props.color]
         }}
       >
         <span
@@ -133,7 +177,6 @@ class LED extends React.Component {
             position: "absolute",
             zIndex: "2",
             height: "100%",
-            boxShadow: "0px 0px 5px 0px",
             ...this.props.style,
             ...effectStyles
           }}
