@@ -15,92 +15,92 @@ let gradient = new Gradient({
     "rgb(125,0,255)",
     "rgb(255,0,255)",
     "rgb(255,0,125)",
-    "rgb(255,0,0)"
+    "rgb(255,0,0)",
   ],
   steps: 256,
-  model: "rgb"
+  model: "rgb",
 });
 
 export const LED_COLORS = gradient.toArray("hex");
 
-const styles = theme => ({
+const styles = (theme) => ({
   "@global": {
     "@keyframes pulse": {
       "50%": {
         background: "#CCCCCC",
-        boxShadow: "0px 0px 0px 0px"
-      }
+        boxShadow: "0px 0px 0px 0px",
+      },
     },
     "@keyframes blink": {
-      "50%": { opacity: "0.0" }
+      "50%": { opacity: "0.0" },
     },
     "@keyframes chase": {
       "0%": { bottom: "-60%" },
       "50%": { bottom: "30%" },
-      "100%": { bottom: "-65%" }
+      "100%": { bottom: "-65%" },
     },
     "@keyframes pulse_Shadow": {
       "50%": {
-        boxShadow: "0px 0px 0px 0px"
-      }
+        boxShadow: "0px 0px 0px 0px",
+      },
     },
     "@keyframes blink_Shadow": {
-      "50%": { boxShadow: "unset" }
+      "50%": { boxShadow: "unset" },
     },
     "@keyframes chase_Shadow": {
       "0%": { boxShadow: "0px 0px 0px 0px" },
       "50%": { boxShadow: "0px 0px 0px 0px" },
-      "100%": { boxShadow: "0px 0px 0px 0px" }
-    }
+      "100%": { boxShadow: "0px 0px 0px 0px" },
+    },
   },
   notificationLED: {
     width: "7px",
     height: "100%",
-    backgroundColor: "#CCCCCC"
+    backgroundColor: "#CCCCCC",
   },
   forever: {
-    animationIterationCount: "infinite"
+    animationIterationCount: "infinite",
   },
   strobe: {
     animationDuration: "3.5s",
-    animationName: "pulse"
+    animationName: "pulse",
   },
   fastBlink: {
     animationDuration: "0.80s",
     animationName: "blink",
-    animationTimingFunction: "step-start"
+    animationTimingFunction: "step-start",
   },
   slowBlink: {
     animationDuration: "2s",
     animationName: "blink",
-    animationTimingFunction: "step-start"
+    animationTimingFunction: "step-start",
   },
   chase: {
     animationDuration: "2s",
     animationName: "chase",
     position: "absolute",
-    animationTimingFunction: "linear"
+    animationTimingFunction: "linear",
   },
   strobe_Shadow: {
     animationDuration: "3.5s",
-    animationName: "pulse_Shadow"
+    animationName: "pulse_Shadow",
   },
   fastBlink_Shadow: {
     animationDuration: "0.80s",
     animationName: "blink_Shadow",
-    animationTimingFunction: "step-start"
+    animationTimingFunction: "step-start",
   },
   slowBlink_Shadow: {
     animationDuration: "2s",
     animationName: "blink_Shadow",
-    animationTimingFunction: "step-start"
+    animationTimingFunction: "step-start",
   },
   chase_Shadow: {
     animationDuration: "2s",
     animationName: "chase_Shadow",
     position: "absolute",
-    animationTimingFunction: "linear"
-  }
+    animationTimingFunction: "linear",
+  },
 });
 
 class LED extends React.Component {
@@ -109,10 +109,16 @@ class LED extends React.Component {
     let effectCSS_Shadow = "";
     let effectStyles = {};
     effectStyles["opacity"] = (this.props.level / 10) * 0.6;
-    let effect = this.props.effects.find(i => i.value === this.props.effect);
+    let effect = this.props.effects.find((i) => i.value === this.props.effect);
     if (!effect) {
       effect = {};
     }
+
+    const SELECTED_COLOR =
+      this.props.color === 255 && this.props.range[0] === 0
+        ? "#fff"
+        : LED_COLORS[this.props.color];
+
     switch (effect.name) {
       case "Fast Blink":
         effectCSS += ` ${this.props.classes.fastBlink}`;
@@ -129,9 +135,7 @@ class LED extends React.Component {
       case "Chase":
         effectCSS += ` ${this.props.classes.chase}`;
         effectCSS_Shadow += ` ${this.props.classes.chase_Shadow}`;
-        effectStyles.backgroundImage = `linear-gradient(transparent,${
-          LED_COLORS[this.props.color]
-        },transparent)`;
+        effectStyles.backgroundImage = `linear-gradient(transparent,${SELECTED_COLOR},transparent)`;
         effectStyles.backgroundColor = "unset";
         effectStyles.boxShadow = "unset";
         effectStyles.zIndex = 0;
@@ -161,24 +165,25 @@ class LED extends React.Component {
           ...this.props.style,
           overflow: "hidden",
           position: "relative",
+          //border: "1px solid #eeeeee",
           boxShadow:
             "0px 0px " +
             Math.ceil(this.props.level / 4) +
             "px 0px " +
-            LED_COLORS[this.props.color]
+            SELECTED_COLOR,
         }}
       >
         <span
           id="notification-led"
           className={this.props.classes.notificationLED + effectCSS}
           style={{
-            backgroundColor: LED_COLORS[this.props.color],
-            color: LED_COLORS[this.props.color],
+            backgroundColor: SELECTED_COLOR,
+            color: SELECTED_COLOR,
             position: "absolute",
             zIndex: "2",
             height: "100%",
             ...this.props.style,
-            ...effectStyles
+            ...effectStyles,
           }}
         />
       </div>

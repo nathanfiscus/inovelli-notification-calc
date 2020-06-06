@@ -14,7 +14,7 @@ import {
   AppBar,
   Toolbar,
   Tabs,
-  Tab
+  Tab,
 } from "@material-ui/core";
 import ThemeProvider from "./ThemeProvider";
 import InfoOutlined from "@material-ui/icons/InfoOutlined";
@@ -42,15 +42,15 @@ let gradient = new Gradient({
     "rgb(125,0,255)",
     "rgb(255,0,255)",
     "rgb(255,0,125)",
-    "rgb(255,0,0)"
+    "rgb(255,0,0)",
   ],
   steps: 256,
-  model: "rgb"
+  model: "rgb",
 });
 
 const LED_COLORS = gradient.toArray("hex");
 
-const styles = theme => ({
+const styles = (theme) => ({
   switchWrapper: {
     display: "flex",
     flexWrap: "wrap",
@@ -61,18 +61,18 @@ const styles = theme => ({
     "&>*": {
       minWidth: "400px",
       "&:last-child": {
-        maxWidth: "480px"
-      }
-    }
+        maxWidth: "480px",
+      },
+    },
   },
   switchContainer: {
-    position: "relative"
+    position: "relative",
   },
   colorHelper: {
     height: "10px",
     width: "100%",
     background:
-      "linear-gradient(to right, rgb(255,0,0), rgb(255,125,0), rgb(255,255,0), rgb(125,255,0), rgb(0,255,0), rgb(0,255,125), rgb(0,255,255), rgb(0,125,255), rgb(0,0,255), rgb(125,0,255), rgb(255,0,255), rgb(255,0,125), rgb(255,0,0))"
+      "linear-gradient(to right, rgb(255,0,0), rgb(255,125,0), rgb(255,255,0), rgb(125,255,0), rgb(0,255,0), rgb(0,255,125), rgb(0,255,255), rgb(0,125,255), rgb(0,0,255), rgb(125,0,255), rgb(255,0,255), rgb(255,0,125), rgb(255,0,0))",
   },
   credits: {
     display: "flex",
@@ -81,19 +81,19 @@ const styles = theme => ({
     right: "0",
     left: "0",
     padding: "15px",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   optionsContainer: {
-    padding: theme.spacing(0, 3)
+    padding: theme.spacing(0, 3),
   },
   switchPicker: {
-    marginBottom: theme.spacing(3)
-  }
+    marginBottom: theme.spacing(3),
+  },
 });
 
 //Might Move to this calc in the future. More straight forward
 
-const longToByteArray = function(/*long*/ long) {
+const longToByteArray = function (/*long*/ long) {
   // we want to represent the input as a 8-bytes array
   var byteArray = [0, 0, 0, 0];
 
@@ -126,23 +126,23 @@ class App extends React.Component {
       selectedLED: 0,
       highlight: null,
       ledConfigs: JSON.parse(
-        JSON.stringify(Switches[0].leds.map(l => l.default))
+        JSON.stringify(Switches[0].leds.map((l) => l.default))
       ),
       notificationConfigs: JSON.parse(
-        JSON.stringify(Switches[0].leds.map(l => l.default))
-      )
+        JSON.stringify(Switches[0].leds.map((l) => l.default))
+      ),
     };
   }
 
   setValue = (param, value) => {
     if (param === "all") {
       this.setState(value, () => {
-        this.setState(lastState => ({
+        this.setState((lastState) => ({
           value:
             parseInt(lastState.color) +
             lastState.level * 256 +
             lastState.duration * 65536 +
-            lastState.effect * 16777216
+            lastState.effect * 16777216,
         }));
       });
     } else {
@@ -151,12 +151,12 @@ class App extends React.Component {
           this.setState({ effect: "1" });
         }
         //83823359
-        this.setState(lastState => ({
+        this.setState((lastState) => ({
           value:
             parseInt(lastState.color) +
             lastState.level * 256 +
             lastState.duration * 65536 +
-            lastState.effect * 16777216
+            lastState.effect * 16777216,
         }));
       });
     }
@@ -164,7 +164,7 @@ class App extends React.Component {
 
   setConfigValue = (key, attr, v) => {
     console.log(key, attr, v);
-    this.setState(lastState => {
+    this.setState((lastState) => {
       let config = lastState[key];
       if (attr === "all") {
         config[lastState.selectedLED] = { ...v };
@@ -175,23 +175,23 @@ class App extends React.Component {
     });
   };
 
-  setSwitchType = e => {
+  setSwitchType = (e) => {
     const configs = Switches[e.target.value].leds
-      .map(l => Object.assign({}, l.default))
+      .map((l) => Object.assign({}, l.default))
       .slice();
     this.setState({
       type: e.target.value,
       selectedLED: 0,
       ledConfigs: JSON.parse(
-        JSON.stringify(Switches[e.target.value].leds.map(l => l.default))
+        JSON.stringify(Switches[e.target.value].leds.map((l) => l.default))
       ),
       notificationConfigs: JSON.parse(
-        JSON.stringify(Switches[e.target.value].leds.map(l => l.default))
-      )
+        JSON.stringify(Switches[e.target.value].leds.map((l) => l.default))
+      ),
     });
   };
 
-  setSelectedLED = e => {
+  setSelectedLED = (e) => {
     this.setState({ selectedLED: e.target.value });
   };
 
@@ -207,10 +207,10 @@ class App extends React.Component {
     this.setState({ tab: value });
   };
 
-  onSceneTrigger = scene => {
+  onSceneTrigger = (scene) => {
     this.setState({
       highlight: scene,
-      tab: scene !== undefined ? 2 : this.state.tab
+      tab: scene !== undefined ? 2 : this.state.tab,
     });
   };
 
@@ -225,7 +225,14 @@ class App extends React.Component {
   render() {
     return (
       <ThemeProvider>
-        {({ setTheme, themeType, formatType, setFormat }) => (
+        {({
+          setTheme,
+          themeType,
+          formatType,
+          setFormat,
+          setCalculationMethod,
+          calculationMethod,
+        }) => (
           <div className={this.props.classes.root}>
             <CssBaseline />
             <AppBar position="static">
@@ -317,6 +324,10 @@ class App extends React.Component {
                     config={
                       this.state.notificationConfigs[this.state.selectedLED]
                     }
+                    colorRange={
+                      Switches[this.state.type].leds[this.state.selectedLED]
+                        .colorRange
+                    }
                     onChange={this.setConfigValue}
                     format={formatType}
                   />
@@ -333,6 +344,11 @@ class App extends React.Component {
                       Switches[this.state.type].leds[this.state.selectedLED]
                         .parameters
                     }
+                    colorRange={
+                      Switches[this.state.type].leds[this.state.selectedLED]
+                        .colorRange
+                    }
+                    calculationMethod={calculationMethod}
                     config={this.state.ledConfigs[this.state.selectedLED]}
                     onChange={this.setConfigValue}
                     format={formatType}
@@ -351,6 +367,8 @@ class App extends React.Component {
               format={formatType}
               setTheme={setTheme}
               setFormat={setFormat}
+              setCalculationMethod={setCalculationMethod}
+              calculationMethod={calculationMethod}
             />
           </div>
         )}

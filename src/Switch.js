@@ -7,21 +7,21 @@ class Switch extends React.Component {
   static propTypes = {};
 
   static defaultProps = {
-    scenes: []
+    scenes: [],
   };
 
   constructor(props) {
     super(props);
     this.state = {
       taps: 0,
-      paddle_id: ""
+      paddle_id: "",
     };
     this.timeout = null;
   }
 
   findScene(taps, paddle_id) {
     return this.props.scenes.find(
-      s => s.taps === taps.toString() && s.paddle_id === paddle_id
+      (s) => s.taps === taps.toString() && s.paddle_id === paddle_id
     );
   }
 
@@ -31,19 +31,19 @@ class Switch extends React.Component {
     this.props.onSceneTriggered(scene);
   };
 
-  tapCounter = paddle_id => e => {
+  tapCounter = (paddle_id) => (e) => {
     clearTimeout(this.timeout);
     this.setState(
-      lastState => {
+      (lastState) => {
         if (paddle_id !== lastState.paddle_id) {
           return {
             taps: 1,
-            paddle_id
+            paddle_id,
           };
         } else {
           return {
             taps: lastState.taps + 1,
-            paddle_id
+            paddle_id,
           };
         }
       },
@@ -57,7 +57,7 @@ class Switch extends React.Component {
     return (
       <div style={{ position: "relative" }}>
         <img alt="Inovelli-LZW30-SN" src={lzw30sn} />
-        {this.props.images.map(img => (
+        {this.props.images.map((img) => (
           <img
             key={img.id}
             alt={img.id}
@@ -65,18 +65,18 @@ class Switch extends React.Component {
             src={img.src}
             style={{
               position: "absolute",
-              ...img.pos
+              ...img.pos,
             }}
           />
         ))}
-        {this.props.paddles.map(paddle => (
+        {this.props.paddles.map((paddle) => (
           <span
             id={paddle.id}
             key={paddle.id}
             style={{
               position: "absolute",
               cursor: "pointer",
-              ...paddle.pos
+              ...paddle.pos,
             }}
             onClick={this.tapCounter(paddle.id)}
           />
@@ -86,8 +86,9 @@ class Switch extends React.Component {
             key={led.id}
             style={{
               position: "absolute",
-              ...led.pos
+              ...led.pos,
             }}
+            range={led.colorRange}
             color={this.props.configs[index].color}
             effect={this.props.configs[index].effect}
             effects={this.props.effects}

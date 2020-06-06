@@ -3,7 +3,7 @@ import lzw36 from "./Hurricane.png";
 export const CONFIG_PARAMETER = {
   COLOR: "color",
   BRIGHTNESS: "brightness",
-  LED_EFFECT: "effect"
+  LED_EFFECT: "effect",
 };
 
 export default [
@@ -13,16 +13,21 @@ export default [
     paddles: [
       {
         id: "up",
-        pos: { top: "162px", left: "135px", width: "120px", height: "100px" }
+        pos: { top: "162px", left: "135px", width: "120px", height: "100px" },
       },
       {
         id: "down",
-        pos: { bottom: "162px", left: "135px", width: "120px", height: "100px" }
+        pos: {
+          bottom: "162px",
+          left: "135px",
+          width: "120px",
+          height: "100px",
+        },
       },
       {
         id: "config",
-        pos: { top: "162px", right: "129px", width: "10px", height: "57px" }
-      }
+        pos: { top: "162px", right: "129px", width: "10px", height: "57px" },
+      },
     ],
     images: [],
     leds: [
@@ -32,20 +37,21 @@ export default [
         pos: {
           height: "210px",
           bottom: "162px",
-          right: "129px"
+          right: "129px",
         },
         parameters: {
           [CONFIG_PARAMETER.COLOR]: 13,
           [CONFIG_PARAMETER.BRIGHTNESS]: 14,
-          [CONFIG_PARAMETER.LED_EFFECT]: 16
+          [CONFIG_PARAMETER.LED_EFFECT]: 16,
         },
+        colorRange: [1, 255],
         default: {
           effect: 1,
           level: 10,
           color: 170,
-          duration: 255
-        }
-      }
+          duration: 255,
+        },
+      },
     ],
     effects: [
       { name: "Off (Notification Cleared)", value: 0 },
@@ -53,7 +59,7 @@ export default [
       { name: "Chase", value: 2, styles: { height: "300px" } },
       { name: "Fast Blink", value: 3 },
       { name: "Slow Blink", value: 4 },
-      { name: "Pulse", value: 5 }
+      { name: "Pulse", value: 5 },
     ],
     scenes: [
       {
@@ -62,7 +68,7 @@ export default [
         paddle_id: "up",
         id: "2",
         data: "7680",
-        disabled: true
+        disabled: true,
       },
       {
         buttons: "1 x Down",
@@ -70,7 +76,7 @@ export default [
         paddle_id: "down",
         id: "1",
         data: "7680",
-        disabled: true
+        disabled: true,
       },
       { buttons: "2 x Up", taps: "2", paddle_id: "up", id: "2", data: "7860" },
       {
@@ -78,7 +84,7 @@ export default [
         taps: "2",
         paddle_id: "down",
         id: "1",
-        data: "7860"
+        data: "7860",
       },
       { buttons: "3 x Up", taps: "3", paddle_id: "up", id: "2", data: "7920" },
       {
@@ -86,7 +92,7 @@ export default [
         taps: "3",
         paddle_id: "down",
         id: "1",
-        data: "7920"
+        data: "7920",
       },
       { buttons: "4 x Up", taps: "4", paddle_id: "up", id: "2", data: "7980" },
       {
@@ -94,7 +100,7 @@ export default [
         taps: "4",
         paddle_id: "down",
         id: "1",
-        data: "7980"
+        data: "7980",
       },
       { buttons: "5 x Up", taps: "5", paddle_id: "up", id: "2", data: "8040" },
       {
@@ -102,14 +108,14 @@ export default [
         taps: "5",
         paddle_id: "down",
         id: "1",
-        data: "8040"
+        data: "8040",
       },
       {
         buttons: "1 x Config",
         taps: "1",
         paddle_id: "config",
         id: "3",
-        data: "7680"
+        data: "7680",
       },
       {
         buttons: "Hold Up",
@@ -117,7 +123,7 @@ export default [
         paddle_id: "up",
         id: "2",
         data: "7800",
-        disabled: true
+        disabled: true,
       },
       {
         buttons: "Release Up",
@@ -125,7 +131,7 @@ export default [
         paddle_id: "up",
         id: "2",
         data: "7740",
-        disabled: true
+        disabled: true,
       },
       {
         buttons: "Hold Down",
@@ -133,7 +139,7 @@ export default [
         paddle_id: "down",
         id: "1",
         data: "7800",
-        disabled: true
+        disabled: true,
       },
       {
         buttons: "Release Down",
@@ -141,9 +147,9 @@ export default [
         paddle_id: "down",
         id: "1",
         data: "7740",
-        disabled: true
-      }
-    ]
+        disabled: true,
+      },
+    ],
   },
   {
     id: "onoff",
@@ -151,16 +157,21 @@ export default [
     paddles: [
       {
         id: "up",
-        pos: { top: "162px", left: "135px", width: "120px", height: "100px" }
+        pos: { top: "162px", left: "135px", width: "120px", height: "100px" },
       },
       {
         id: "down",
-        pos: { bottom: "162px", left: "135px", width: "120px", height: "100px" }
+        pos: {
+          bottom: "162px",
+          left: "135px",
+          width: "120px",
+          height: "100px",
+        },
       },
       {
         id: "config",
-        pos: { top: "162px", right: "129px", width: "10px", height: "57px" }
-      }
+        pos: { top: "162px", right: "129px", width: "10px", height: "57px" },
+      },
     ],
     leds: [
       {
@@ -169,20 +180,21 @@ export default [
         pos: {
           height: "39px",
           bottom: "162px",
-          right: "129px"
+          right: "129px",
         },
         parameters: {
           [CONFIG_PARAMETER.COLOR]: 5,
           [CONFIG_PARAMETER.BRIGHTNESS]: 6,
-          [CONFIG_PARAMETER.LED_EFFECT]: 8
+          [CONFIG_PARAMETER.LED_EFFECT]: 8,
         },
+        colorRange: [1, 255],
         default: {
           effect: 1,
           level: 10,
           color: 170,
-          duration: 255
-        }
-      }
+          duration: 255,
+        },
+      },
     ],
     images: [],
     effects: [
@@ -190,7 +202,7 @@ export default [
       { name: "Solid", value: "1" },
       { name: "Fast Blink", value: "2" },
       { name: "Slow Blink", value: "3" },
-      { name: "Pulse", value: "4" }
+      { name: "Pulse", value: "4" },
     ],
     scenes: [
       {
@@ -199,7 +211,7 @@ export default [
         paddle_id: "up",
         id: "2",
         data: "7680",
-        disabled: true
+        disabled: true,
       },
       {
         buttons: "1 x Down",
@@ -207,7 +219,7 @@ export default [
         paddle_id: "down",
         id: "1",
         data: "7680",
-        disabled: true
+        disabled: true,
       },
       { buttons: "2 x Up", taps: "2", paddle_id: "up", id: "2", data: "7860" },
       {
@@ -215,7 +227,7 @@ export default [
         taps: "2",
         paddle_id: "down",
         id: "1",
-        data: "7860"
+        data: "7860",
       },
       { buttons: "3 x Up", taps: "3", paddle_id: "up", id: "2", data: "7920" },
       {
@@ -223,7 +235,7 @@ export default [
         taps: "3",
         paddle_id: "down",
         id: "1",
-        data: "7920"
+        data: "7920",
       },
       { buttons: "4 x Up", taps: "4", paddle_id: "up", id: "2", data: "7980" },
       {
@@ -231,7 +243,7 @@ export default [
         taps: "4",
         paddle_id: "down",
         id: "1",
-        data: "7980"
+        data: "7980",
       },
       { buttons: "5 x Up", taps: "5", paddle_id: "up", id: "2", data: "8040" },
       {
@@ -239,14 +251,14 @@ export default [
         taps: "5",
         paddle_id: "down",
         id: "1",
-        data: "8040"
+        data: "8040",
       },
       {
         buttons: "1 x Config",
         taps: "1",
         paddle_id: "config",
         id: "3",
-        data: "7680"
+        data: "7680",
       },
       { buttons: "Hold Up", taps: "0", paddle_id: "up", id: "2", data: "7800" },
       {
@@ -255,7 +267,7 @@ export default [
         paddle_id: "up",
         id: "2",
         data: "7740",
-        disabled: true
+        disabled: true,
       },
       {
         buttons: "Hold Down",
@@ -263,7 +275,7 @@ export default [
         paddle_id: "down",
         id: "1",
         data: "7800",
-        disabled: true
+        disabled: true,
       },
       {
         buttons: "Release Down",
@@ -271,9 +283,9 @@ export default [
         paddle_id: "down",
         id: "1",
         data: "7740",
-        disabled: true
-      }
-    ]
+        disabled: true,
+      },
+    ],
   },
   {
     id: "fanlightcombo",
@@ -285,8 +297,8 @@ export default [
           top: "162px",
           left: "135px",
           width: "120px",
-          height: "135px"
-        }
+          height: "135px",
+        },
       },
       {
         id: "fan",
@@ -294,8 +306,8 @@ export default [
           bottom: "162px",
           left: "135px",
           width: "120px",
-          height: "135px"
-        }
+          height: "135px",
+        },
       },
       {
         id: "light_rocker_up",
@@ -303,8 +315,8 @@ export default [
           top: "182px",
           left: "115px",
           width: "14px",
-          height: "47px"
-        }
+          height: "47px",
+        },
       },
       {
         id: "light_rocker_down",
@@ -312,8 +324,8 @@ export default [
           top: "229px",
           left: "115px",
           width: "14px",
-          height: "47px"
-        }
+          height: "47px",
+        },
       },
       {
         id: "fan_rocker_up",
@@ -321,8 +333,8 @@ export default [
           top: "325px",
           left: "115px",
           width: "14px",
-          height: "47px"
-        }
+          height: "47px",
+        },
       },
       {
         id: "fan_rocker_down",
@@ -330,9 +342,9 @@ export default [
           top: "372px",
           left: "115px",
           width: "14px",
-          height: "47px"
-        }
-      }
+          height: "47px",
+        },
+      },
     ],
     leds: [
       {
@@ -341,19 +353,20 @@ export default [
         pos: {
           top: "162px",
           right: "129px",
-          height: "134px"
+          height: "134px",
         },
         parameters: {
           [CONFIG_PARAMETER.COLOR]: 18,
           [CONFIG_PARAMETER.BRIGHTNESS]: 19,
-          [CONFIG_PARAMETER.LED_EFFECT]: 24
+          [CONFIG_PARAMETER.LED_EFFECT]: 24,
         },
+        colorRange: [0, 255],
         default: {
           effect: 0,
           level: 10,
           color: 170,
-          duration: 255
-        }
+          duration: 255,
+        },
       },
       {
         id: "led-1",
@@ -361,20 +374,21 @@ export default [
         pos: {
           bottom: "162px",
           right: "129px",
-          height: "134px"
+          height: "134px",
         },
         parameters: {
           [CONFIG_PARAMETER.COLOR]: 20,
           [CONFIG_PARAMETER.BRIGHTNESS]: 21,
-          [CONFIG_PARAMETER.LED_EFFECT]: 25
+          [CONFIG_PARAMETER.LED_EFFECT]: 25,
         },
+        colorRange: [0, 255],
         default: {
           effect: 0,
           level: 10,
           color: 170,
-          duration: 255
-        }
-      }
+          duration: 255,
+        },
+      },
     ],
     images: [
       {
@@ -383,16 +397,16 @@ export default [
         pos: {
           left: "114px",
           width: "165px",
-          top: "149px"
-        }
-      }
+          top: "149px",
+        },
+      },
     ],
     effects: [
       { name: "Solid", value: "0" },
       { name: "Slow Blink", value: "1" },
       { name: "Fast Blink", value: "2" },
       { name: "Chase", value: "3", style: { height: "150px" } },
-      { name: "Pulse", value: "4" }
+      { name: "Pulse", value: "4" },
     ],
     scenes: [
       {
@@ -400,7 +414,7 @@ export default [
         taps: "1",
         paddle_id: "light",
         id: "3",
-        data: "-"
+        data: "-",
       },
       { buttons: "1 x Fan", taps: "1", paddle_id: "fan", id: "6", data: "-" },
       { buttons: "2 x Fan", taps: "2", paddle_id: "fan", id: "6", data: "-" },
@@ -413,7 +427,7 @@ export default [
         paddle_id: "fan",
         id: "6",
         data: "-",
-        disabled: true
+        disabled: true,
       },
       {
         buttons: "Fan Release",
@@ -421,42 +435,42 @@ export default [
         paddle_id: "fan",
         id: "6",
         data: "-",
-        disabled: true
+        disabled: true,
       },
       {
         buttons: "1 x Light Rocker Up",
         taps: "1",
         paddle_id: "light_rocker_up",
         id: "1",
-        data: "-"
+        data: "-",
       },
       {
         buttons: "2 x Light Rocker Up",
         taps: "2",
         paddle_id: "light_rocker_up",
         id: "1",
-        data: "-"
+        data: "-",
       },
       {
         buttons: "3 x Light Rocker Up",
         taps: "3",
         paddle_id: "light_rocker_up",
         id: "1",
-        data: "-"
+        data: "-",
       },
       {
         buttons: "4 x Light Rocker Up",
         taps: "4",
         paddle_id: "light_rocker_up",
         id: "1",
-        data: "-"
+        data: "-",
       },
       {
         buttons: "5 x Light Rocker Up",
         taps: "5",
         paddle_id: "light_rocker_up",
         id: "1",
-        data: "-"
+        data: "-",
       },
       {
         buttons: "Light Rocker Up Hold",
@@ -464,7 +478,7 @@ export default [
         paddle_id: "light_rocker_up",
         id: "1",
         data: "-",
-        disabled: true
+        disabled: true,
       },
       {
         buttons: "Light Rocker Up Release",
@@ -472,42 +486,42 @@ export default [
         paddle_id: "light_rocker_up",
         id: "1",
         data: "-",
-        disabled: true
+        disabled: true,
       },
       {
         buttons: "1 x Light Rocker Down",
         taps: "1",
         paddle_id: "light_rocker_down",
         id: "2",
-        data: "-"
+        data: "-",
       },
       {
         buttons: "2 x Light Rocker Down",
         taps: "2",
         paddle_id: "light_rocker_down",
         id: "2",
-        data: "-"
+        data: "-",
       },
       {
         buttons: "3 x Light Rocker Down",
         taps: "3",
         paddle_id: "light_rocker_down",
         id: "2",
-        data: "-"
+        data: "-",
       },
       {
         buttons: "4 x Light Rocker Down",
         taps: "4",
         paddle_id: "light_rocker_down",
         id: "2",
-        data: "-"
+        data: "-",
       },
       {
         buttons: "5 x Light Rocker Down",
         taps: "5",
         paddle_id: "light_rocker_down",
         id: "2",
-        data: "-"
+        data: "-",
       },
       {
         buttons: "Light Rocker Down Hold",
@@ -515,7 +529,7 @@ export default [
         paddle_id: "light_rocker_down",
         id: "2",
         data: "-",
-        disabled: true
+        disabled: true,
       },
       {
         buttons: "Light Rocker Down Release",
@@ -523,42 +537,42 @@ export default [
         paddle_id: "light_rocker_down",
         id: "2",
         data: "-",
-        disabled: true
+        disabled: true,
       },
       {
         buttons: "1 x Fan Rocker Up",
         taps: "1",
         paddle_id: "fan_rocker_up",
         id: "1",
-        data: "-"
+        data: "-",
       },
       {
         buttons: "2 x Fan Rocker Up",
         taps: "2",
         paddle_id: "fan_rocker_up",
         id: "1",
-        data: "-"
+        data: "-",
       },
       {
         buttons: "3 x Fan Rocker Up",
         taps: "3",
         paddle_id: "fan_rocker_up",
         id: "1",
-        data: "-"
+        data: "-",
       },
       {
         buttons: "4 x Fan Rocker Up",
         taps: "4",
         paddle_id: "fan_rocker_up",
         id: "1",
-        data: "-"
+        data: "-",
       },
       {
         buttons: "5 x Fan Rocker Up",
         taps: "5",
         paddle_id: "fan_rocker_up",
         id: "1",
-        data: "-"
+        data: "-",
       },
       {
         buttons: "Fan Rocker Up Hold",
@@ -566,7 +580,7 @@ export default [
         paddle_id: "fan_rocker_up",
         id: "1",
         data: "-",
-        disabled: true
+        disabled: true,
       },
       {
         buttons: "Fan Rocker Up Release",
@@ -574,15 +588,15 @@ export default [
         paddle_id: "fan_rocker_up",
         id: "1",
         data: "-",
-        disabled: true
+        disabled: true,
       },
       {
         buttons: "1 x Fan Rocker Down",
         taps: "1",
         paddle_id: "fan_rocker_down",
         id: "2",
-        data: "-"
-      }
-    ]
-  }
+        data: "-",
+      },
+    ],
+  },
 ];
