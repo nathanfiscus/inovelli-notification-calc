@@ -14,26 +14,38 @@ import {
   TextField,
   Menu,
   Snackbar,
-  MenuItem
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
 } from "@material-ui/core";
 import Slide from "@material-ui/core/Slide";
 import copyToClipboard from "./ClipboardAccess";
 import YAML from "json-to-pretty-yaml";
+import { CONFIG_PARAMETER } from "./Switches";
 
 function SlideTransition(props) {
   return <Slide {...props} direction="up" />;
 }
 
-const styles = theme => ({
+const styles = (theme) => ({
   colorHelper: {
     height: "10px",
     width: "100%",
+    position: "relative",
     background:
-      "linear-gradient(to right, rgb(255,0,0), rgb(255,125,0), rgb(255,255,0), rgb(125,255,0), rgb(0,255,0), rgb(0,255,125), rgb(0,255,255), rgb(0,125,255), rgb(0,0,255), rgb(125,0,255), rgb(255,0,255), rgb(255,0,125), rgb(255,0,0))"
+      "linear-gradient(to right, rgb(255,0,0), rgb(255,125,0), rgb(255,255,0), rgb(125,255,0), rgb(0,255,0), rgb(0,255,125), rgb(0,255,255), rgb(0,125,255), rgb(0,0,255), rgb(125,0,255), rgb(255,0,255), rgb(255,0,125), rgb(255,0,0))",
+  },
+  colorHelperWhite: {
+    height: "10px",
+    width: "2px",
+    position: "absolute",
+    right: "0px",
+    background: "white",
   },
   switchPicker: {
-    marginBottom: theme.spacing(3)
-  }
+    marginBottom: theme.spacing(3),
+  },
 });
 
 class StandardLEDTools extends React.PureComponent {
@@ -47,23 +59,26 @@ class StandardLEDTools extends React.PureComponent {
       anchor: null,
       anchorColor: null,
       snackbarOpen: false,
-      copyStatusText: ""
+      copyStatusText: "",
     };
   }
 
-  setValue = key => (e, v) => {
-    this.props.onChange(key, v);
+  setValue = (key, attr) => (e, v) => {
+    console.log(key, attr, v);
+    this.props.onChange(key, attr, v);
   };
 
-  toggleMenu = e => {
+  toggleMenu = (e) => {
     const { target } = e;
-    this.setState(lastState => ({ anchor: lastState.anchor ? null : target }));
+    this.setState((lastState) => ({
+      anchor: lastState.anchor ? null : target,
+    }));
   };
 
-  toggleMenuColor = e => {
+  toggleMenuColor = (e) => {
     const { target } = e;
-    this.setState(lastState => ({
-      anchorColor: lastState.anchorColor ? null : target
+    this.setState((lastState) => ({
+      anchorColor: lastState.anchorColor ? null : target,
     }));
   };
 
@@ -72,7 +87,7 @@ class StandardLEDTools extends React.PureComponent {
       snackbarOpen: true,
       copyStatusText: success
         ? "Copied to Clipboard"
-        : "Unable to copy to clipboard. Check browser settings."
+        : "Unable to copy to clipboard. Check browser settings.",
     });
   };
 
@@ -82,20 +97,20 @@ class StandardLEDTools extends React.PureComponent {
 
   handleCopyNumber = () => {
     this.setState({ anchor: null });
-    copyToClipboard(this.props.brightness, this.handleOnCopy);
+    copyToClipboard(this.props.config.level, this.handleOnCopy);
   };
 
   handleCopyYAML = () => {
     this.setState({ anchor: null });
     copyToClipboard(
       YAML.stringify({
-        parameter: this.props.type === "dimmer" ? 14 : 6,
+        parameter: this.props.parameters[CONFIG_PARAMETER.BRIGHTNESS],
         value:
           this.props.format === "10"
             ? parseInt(
-                this.props.brightness.toString(Number(this.props.format))
+                this.props.config.level.toString(Number(this.props.format))
               )
-            : this.props.brightness.toString(Number(this.props.format))
+            : this.props.config.level.toString(Number(this.props.format)),
       }),
       this.handleOnCopy
     );
@@ -103,37 +118,54 @@ class StandardLEDTools extends React.PureComponent {
 
   handleCopyNumberColor = () => {
     this.setState({ anchorColor: null });
-    copyToClipboard(this.props.color, this.handleOnCopy);
+    copyToClipboard(this.props.config.color, this.handleOnCopy);
   };
 
   handleCopyYAMLColor = () => {
     this.setState({ anchorColor: null });
     copyToClipboard(
       YAML.stringify({
-        parameter: this.props.type === "dimmer" ? 13 : 5,
+        parameter: this.props.parameters[CONFIG_PARAMETER.COLOR],
         value:
           this.props.format === "10"
-            ? parseInt(this.props.color.toString(Number(this.props.format)))
-            : this.props.color.toString(Number(this.props.format))
+            ? parseInt(
+                this.props.config.color.toString(Number(this.props.format))
+              )
+            : this.props.config.color.toString(Number(this.props.format)),
       }),
       this.handleOnCopy
     );
+  };
+
+  adjustCalcMethod = (val) => {
+    if (this.props.calculationMethod === "raw") {
+      return val;
+    } else {
+      return Math.floor((val / 255) * 360);
+    }
   };
 
   render() {
     return (
       <div>
         <Typography gutterBottom>Color</Typography>
-        <div className={this.props.classes.colorHelper} />
+        <div className={this.props.classes.colorHelper}>
+          {this.props.colorRange[0] === 0 && (
+            <div className={this.props.classes.colorHelperWhite} />
+          )}
+        </div>
         <Slider
           defaultValue={1}
           aria-labelledby="discrete-slider"
           valueLabelDisplay="auto"
           step={1}
-          min={1}
-          max={255}
-          value={this.props.color}
-          onChange={this.setValue("standardColor")}
+          min={this.props.colorRange[0]}
+          max={this.props.colorRange[1]}
+          value={this.props.config.color}
+          valueLabelDisplay={
+            this.props.calculationMethod === "raw" ? "auto" : "off"
+          }
+          onChange={this.setValue("ledConfigs", "color")}
         />
 
         <Typography gutterBottom>Brightness Level</Typography>
@@ -143,11 +175,11 @@ class StandardLEDTools extends React.PureComponent {
           </Grid>
           <Grid item xs>
             <Slider
-              value={this.props.brightness}
+              value={this.props.config.level}
               valueLabelDisplay="auto"
               min={0}
               max={10}
-              onChange={this.setValue("standardBrightness")}
+              onChange={this.setValue("ledConfigs", "level")}
             />
           </Grid>
           <Grid item>
@@ -156,10 +188,12 @@ class StandardLEDTools extends React.PureComponent {
         </Grid>
         <TextField
           style={{ marginTop: "60px" }}
-          value={this.props.color.toString(Number(this.props.format || 10))}
+          value={this.adjustCalcMethod(this.props.config.color).toString(
+            Number(this.props.format || 10)
+          )}
           readOnly={true}
           label={`Color Value (Parameter ${
-            this.props.type === "dimmer" ? 13 : 5
+            this.props.parameters[CONFIG_PARAMETER.COLOR]
           })`}
           fullWidth={true}
           margin="normal"
@@ -190,17 +224,17 @@ class StandardLEDTools extends React.PureComponent {
                   </MenuItem>
                 </Menu>
               </InputAdornment>
-            )
+            ),
           }}
         />
         <TextField
           style={{ marginTop: "60px" }}
-          value={this.props.brightness.toString(
+          value={this.props.config.level.toString(
             Number(this.props.format || 10)
           )}
           readOnly={true}
           label={`Brightness Value (Parameter ${
-            this.props.type === "dimmer" ? 14 : 6
+            this.props.parameters[CONFIG_PARAMETER.BRIGHTNESS]
           })`}
           fullWidth={true}
           margin="normal"
@@ -231,13 +265,13 @@ class StandardLEDTools extends React.PureComponent {
                   </MenuItem>
                 </Menu>
               </InputAdornment>
-            )
+            ),
           }}
         />
         <Snackbar
           anchorOrigin={{
             vertical: "bottom",
-            horizontal: "right"
+            horizontal: "right",
           }}
           TransitionComponent={SlideTransition}
           open={this.state.snackbarOpen}

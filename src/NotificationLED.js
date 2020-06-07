@@ -2,16 +2,16 @@ import React from "react";
 import LED from "./LED";
 import { withStyles } from "@material-ui/core";
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     display: "flex",
-    flexDirection: "column"
-  }
+    flexDirection: "column",
+  },
 });
 
 class NotificationLED extends React.Component {
   render() {
-    const { type, color, effect, level } = this.props;
+    const { type, color, effect, level, effects, range } = this.props;
     return (
       <div style={this.props.style}>
         <LED
@@ -19,7 +19,8 @@ class NotificationLED extends React.Component {
           effect={effect}
           level={level}
           type={type}
-          style={type === "dimmer" ? { height: "210px" } : {}}
+          effects={effects}
+          range={range}
         />
       </div>
     );

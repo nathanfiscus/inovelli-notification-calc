@@ -9,16 +9,21 @@ class ThemeProvider extends React.Component {
     this.state = {
       themeType: window.localStorage.themeType || "light",
       formatType: window.localStorage.formatType || "10",
-      setFormat: format => {
+      calculationMethod: window.localStorage.calculationMethod || "raw",
+      setFormat: (format) => {
         this.setState({ formatType: format });
         window.localStorage.setItem("formatType", format);
       },
-      setTheme: theme => {
+      setCalculationMethod: (method) => {
+        this.setState({ calculationMethod: method });
+        window.localStorage.setItem("calculationMethod", method);
+      },
+      setTheme: (theme) => {
         if (theme === "light" || theme === "dark") {
           this.setState({ themeType: theme });
           window.localStorage.setItem("themeType", theme);
         }
-      }
+      },
     };
   }
 
@@ -26,8 +31,8 @@ class ThemeProvider extends React.Component {
     const THEME = createMuiTheme({
       palette: {
         type: this.state.themeType,
-        primary: { main: primary }
-      }
+        primary: { main: primary },
+      },
     });
     return (
       <MuiThemeProvider theme={THEME}>

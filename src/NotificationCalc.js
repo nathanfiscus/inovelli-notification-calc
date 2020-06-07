@@ -15,37 +15,45 @@ import {
   Grid,
   Tooltip,
   Menu,
-  Snackbar
+  Snackbar,
 } from "@material-ui/core";
 import Brightness0 from "@material-ui/icons/Brightness2";
 import Brightness7 from "@material-ui/icons/Brightness7";
 import InfiniteIcon from "@material-ui/icons/AllInclusive";
 import TimelapseIcon from "@material-ui/icons/Timelapse";
-import { DIMMER_EFFECTS, ONOFF_EFFECTS } from "./Effects";
 import ValueLabelTooltip from "./ValueLabelTooltip";
 import SettingsBackupRestoreIcon from "@material-ui/icons/SettingsBackupRestore";
 import DecoderDialog from "./DecoderDialog";
 import Slide from "@material-ui/core/Slide";
 import copyToClipboard from "./ClipboardAccess";
 import YAML from "json-to-pretty-yaml";
+import { CONFIG_PARAMETER } from "./Switches";
 
 function SlideTransition(props) {
   return <Slide {...props} direction="up" />;
 }
 
-const styles = theme => ({
+const styles = (theme) => ({
   colorHelper: {
     height: "10px",
     width: "100%",
+    position: "relative",
     background:
-      "linear-gradient(to right, rgb(255,0,0), rgb(255,125,0), rgb(255,255,0), rgb(125,255,0), rgb(0,255,0), rgb(0,255,125), rgb(0,255,255), rgb(0,125,255), rgb(0,0,255), rgb(125,0,255), rgb(255,0,255), rgb(255,0,125), rgb(255,0,0))"
+      "linear-gradient(to right, rgb(255,0,0), rgb(255,125,0), rgb(255,255,0), rgb(125,255,0), rgb(0,255,0), rgb(0,255,125), rgb(0,255,255), rgb(0,125,255), rgb(0,0,255), rgb(125,0,255), rgb(255,0,255), rgb(255,0,125), rgb(255,0,0))",
+  },
+  colorHelperWhite: {
+    height: "10px",
+    width: "2px",
+    position: "absolute",
+    right: "0px",
+    background: "white",
   },
   switchPicker: {
-    marginBottom: theme.spacing(3)
-  }
+    marginBottom: theme.spacing(3),
+  },
 });
 
-const longToByteArray = function(/*long*/ long) {
+const longToByteArray = function (/*long*/ long) {
   // we want to represent the input as a 8-bytes array
   var byteArray = [0, 0, 0, 0];
 
@@ -58,24 +66,21 @@ const longToByteArray = function(/*long*/ long) {
   return byteArray;
 };
 
-// const byteArrayToLong = function(/*byte[]*/ byteArray) {
-//   var value = 0;
-//   for (var i = byteArray.length - 1; i >= 0; i--) {
-//     value = value * 256 + byteArray[i];
-//   }
+const byteArrayToLong = function (/*byte[]*/ byteArray) {
+  var value = 0;
+  for (var i = byteArray.length - 1; i >= 0; i--) {
+    value = value * 256 + byteArray[i];
+  }
 
-//   return value;
-// };
+  return value;
+};
 
 class NotificationCalc extends React.Component {
   static propTypes = {
-    color: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    level: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    duration: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    effect: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    config: PropTypes.object,
+    parameters: PropTypes.object,
     onChange: PropTypes.func,
-    type: PropTypes.string
+    type: PropTypes.string,
   };
 
   static defaultProps = {};
@@ -86,7 +91,7 @@ class NotificationCalc extends React.Component {
       decoderDialogOpen: false,
       anchor: null,
       snackbarOpen: false,
-      copyStatusText: ""
+      copyStatusText: "",
     };
     this.configValue = React.createRef();
   }
@@ -94,7 +99,12 @@ class NotificationCalc extends React.Component {
   handleCopyNumber = () => {
     this.setState({ anchor: null });
     copyToClipboard(
-      this.props.value.toString(Number(this.props.format)),
+      byteArrayToLong([
+        this.props.config.color,
+        this.props.config.level,
+        this.props.config.duration,
+        this.props.config.effect,
+      ]).toString(Number(this.props.format || 10)),
       this.handleOnCopy
     );
   };
@@ -103,18 +113,31 @@ class NotificationCalc extends React.Component {
     this.setState({ anchor: null });
     copyToClipboard(
       YAML.stringify({
-        parameter: this.props.type === "dimmer" ? 16 : 8,
+        parameter: this.props.parameters[CONFIG_PARAMETER.LED_EFFECT],
         value:
           this.props.format === "10"
-            ? parseInt(this.props.value.toString(Number(this.props.format)))
-            : this.props.value.toString(Number(this.props.format))
+            ? parseInt(
+                byteArrayToLong([
+                  this.props.config.color,
+                  this.props.config.level,
+                  this.props.config.duration,
+                  this.props.config.effect,
+                ]).toString(Number(this.props.format || 10))
+              )
+            : byteArrayToLong([
+                this.props.config.color,
+                this.props.config.level,
+                this.props.config.duration,
+                this.props.config.effect,
+              ]).toString(Number(this.props.format || 10)),
       }),
       this.handleOnCopy
     );
   };
 
-  setValue = key => (e, v) => {
+  setValue = (key) => (e, v) => {
     this.props.onChange(
+      "notificationConfigs",
       key,
       key !== "effect" && key !== "type" ? v : e.target.value
     );
@@ -128,29 +151,30 @@ class NotificationCalc extends React.Component {
     this.setState({ decoderDialogOpen: false });
   };
 
-  handleDecode = value => {
+  handleDecode = (value) => {
     const arr = longToByteArray(value);
-    this.props.onChange("all", {
+    this.props.onChange("notificationConfigs", "all", {
       color: arr[0],
       level: arr[1],
       duration: arr[2],
-      effect: arr[3].toString(),
-      value: value
+      effect: arr[3],
     });
     this.setState({ decoderDialogOpen: false });
   };
 
-  toggleMenu = e => {
+  toggleMenu = (e) => {
     const { target } = e;
-    this.setState(lastState => ({ anchor: lastState.anchor ? null : target }));
+    this.setState((lastState) => ({
+      anchor: lastState.anchor ? null : target,
+    }));
   };
 
-  handleOnCopy = success => {
+  handleOnCopy = (success) => {
     this.setState({
       snackbarOpen: true,
       copyStatusText: success
         ? "Copied to Clipboard"
-        : "Unable to copy to clipboard. Check browser settings."
+        : "Unable to copy to clipboard. Check browser settings.",
     });
   };
 
@@ -172,19 +196,28 @@ class NotificationCalc extends React.Component {
         <div
           className={this.props.classes.colorHelper}
           style={{
-            filter: this.props.effect === "0" ? "grayscale(75%)" : undefined
+            filter:
+              this.props.effect === "0" && this.props.type !== "fan-dimmer"
+                ? "grayscale(75%)"
+                : undefined,
           }}
-        />
+        >
+          {this.props.colorRange[0] === 0 && (
+            <div className={this.props.classes.colorHelperWhite} />
+          )}
+        </div>
         <Slider
           defaultValue={1}
           aria-labelledby="discrete-slider"
           valueLabelDisplay="auto"
           step={1}
-          min={1}
-          max={255}
-          value={this.props.color}
+          min={this.props.colorRange[0]}
+          max={this.props.colorRange[1]}
+          value={this.props.config.color}
           onChange={this.setValue("color")}
-          disabled={this.props.effect === "0"}
+          disabled={
+            this.props.effect === "0" && this.props.type !== "fan-dimmer"
+          }
         />
 
         <Typography gutterBottom>Brightness Level</Typography>
@@ -194,12 +227,14 @@ class NotificationCalc extends React.Component {
           </Grid>
           <Grid item xs>
             <Slider
-              value={this.props.level}
+              value={this.props.config.level}
               valueLabelDisplay="auto"
               min={0}
               max={10}
               onChange={this.setValue("level")}
-              disabled={this.props.effect === "0"}
+              disabled={
+                this.props.effect === "0" && this.props.type !== "fan-dimmer"
+              }
             />
           </Grid>
           <Grid item>
@@ -213,7 +248,7 @@ class NotificationCalc extends React.Component {
           </Grid>
           <Grid item xs>
             <Slider
-              value={this.props.duration}
+              value={this.props.config.duration}
               valueLabelDisplay="auto"
               valueLabelFormat={this.durationFormater}
               marks={[5, 10, 15, 20, 30, 45, 60, 120, 180, 240, 255]}
@@ -221,7 +256,9 @@ class NotificationCalc extends React.Component {
               max={255}
               onChange={this.setValue("duration")}
               ValueLabelComponent={ValueLabelTooltip}
-              disabled={this.props.effect === "0"}
+              disabled={
+                this.props.effect === "0" && this.props.type !== "fan-dimmer"
+              }
             />
           </Grid>
           <Grid item>
@@ -230,55 +267,26 @@ class NotificationCalc extends React.Component {
         </Grid>
         <FormControl fullWidth={true} margin="normal">
           <InputLabel>Effect</InputLabel>
-          <Select value={this.props.effect} onChange={this.setValue("effect")}>
-            <MenuItem value="0">Off (Notification Cleared)</MenuItem>
-            <MenuItem
-              value={
-                this.props.type === "dimmer"
-                  ? DIMMER_EFFECTS.SOLID
-                  : ONOFF_EFFECTS.SOLID
-              }
-            >
-              Solid
-            </MenuItem>
-            <MenuItem
-              value={
-                this.props.type === "dimmer"
-                  ? DIMMER_EFFECTS.FAST_BLINK
-                  : ONOFF_EFFECTS.FAST_BLINK
-              }
-            >
-              Fast Blink
-            </MenuItem>
-            <MenuItem
-              value={
-                this.props.type === "dimmer"
-                  ? DIMMER_EFFECTS.SLOW_BLINK
-                  : ONOFF_EFFECTS.SLOW_BLINK
-              }
-            >
-              Slow Blink
-            </MenuItem>
-            <MenuItem
-              value={
-                this.props.type === "dimmer"
-                  ? DIMMER_EFFECTS.PULSE
-                  : ONOFF_EFFECTS.PULSE
-              }
-            >
-              Pulse
-            </MenuItem>
-            {this.props.type === "dimmer" && (
-              <MenuItem value={DIMMER_EFFECTS.CHASE}>Chase</MenuItem>
-            )}
+          <Select
+            value={this.props.config.effect}
+            onChange={this.setValue("effect")}
+          >
+            {this.props.effects.map((effect) => (
+              <MenuItem value={effect.value}>{effect.name}</MenuItem>
+            ))}
           </Select>
         </FormControl>
         <TextField
           style={{ marginTop: "60px" }}
-          value={this.props.value.toString(Number(this.props.format))}
+          value={byteArrayToLong([
+            this.props.config.color,
+            this.props.config.level,
+            this.props.config.duration,
+            this.props.config.effect,
+          ]).toString(Number(this.props.format || 10))}
           readOnly={true}
           label={`Configuration Value (Parameter ${
-            this.props.type === "dimmer" ? 16 : 8
+            this.props.parameters[CONFIG_PARAMETER.LED_EFFECT]
           })`}
           fullWidth={true}
           margin="normal"
@@ -309,13 +317,13 @@ class NotificationCalc extends React.Component {
                   </MenuItem>
                 </Menu>
               </InputAdornment>
-            )
+            ),
           }}
         />
         <Snackbar
           anchorOrigin={{
             vertical: "bottom",
-            horizontal: "right"
+            horizontal: "right",
           }}
           TransitionComponent={SlideTransition}
           open={this.state.snackbarOpen}

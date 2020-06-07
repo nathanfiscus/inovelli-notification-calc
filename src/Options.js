@@ -9,7 +9,8 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  ListItemText,
 } from "@material-ui/core";
 
 class OptionsDialog extends React.PureComponent {
@@ -17,11 +18,15 @@ class OptionsDialog extends React.PureComponent {
 
   static defaultProps = {};
 
-  handleThemeChange = e => {
+  handleThemeChange = (e) => {
     this.props.setTheme(e.target.value);
   };
 
-  handleFormatChange = e => {
+  handleCalcChange = (e) => {
+    this.props.setCalculationMethod(e.target.value);
+  };
+
+  handleFormatChange = (e) => {
     this.props.setFormat(e.target.value);
   };
 
@@ -39,6 +44,26 @@ class OptionsDialog extends React.PureComponent {
             <Select value={this.props.theme} onChange={this.handleThemeChange}>
               <MenuItem value="light">Light</MenuItem>
               <MenuItem value="dark">Dark</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl fullWidth={true} margin="normal">
+            <InputLabel>LED Value Calculation Method</InputLabel>
+            <Select
+              value={this.props.calculationMethod}
+              onChange={this.handleCalcChange}
+            >
+              <MenuItem value="raw">
+                <ListItemText
+                  primary="Raw (Default)"
+                  secondary="Home Assistant or any other non-device-handler based controller."
+                />
+              </MenuItem>
+              <MenuItem value="driver">
+                <ListItemText
+                  primary="Device Handler"
+                  secondary="SmartThings, Hubitat or other device-handler based controller."
+                />
+              </MenuItem>
             </Select>
           </FormControl>
           <FormControl fullWidth={true} margin="normal">

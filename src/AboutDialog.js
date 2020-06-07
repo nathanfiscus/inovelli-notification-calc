@@ -57,6 +57,12 @@ class AboutDialog extends React.Component {
                 secondary="Dimmer Switch (No Scenes or Notifications)"
               />
             </ListItem>
+            <ListItem>
+              <ListItemText
+                primary="Inovelli  LZW36"
+                secondary="Fan+Light Dimmer"
+              />
+            </ListItem>
           </List>
           <Typography variant="h6">Credits</Typography>
           <Typography>Written By @nathanfiscus</Typography>
