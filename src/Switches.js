@@ -45,7 +45,12 @@ export default [
           [CONFIG_PARAMETER.LED_EFFECT]: 16,
         },
         colorRange: [1, 255],
+        brightnessRange: [1, 10],
         default: {
+          level: 10,
+          color: 170,
+        },
+        defaultNotification: {
           effect: 1,
           level: 10,
           color: 170,
@@ -150,6 +155,7 @@ export default [
         disabled: true,
       },
     ],
+    byteOrder: ["color", "level", "duration", "effect"],
   },
   {
     id: "onoff",
@@ -188,7 +194,12 @@ export default [
           [CONFIG_PARAMETER.LED_EFFECT]: 8,
         },
         colorRange: [1, 255],
+        brightnessRange: [1, 10],
         default: {
+          level: 10,
+          color: 170,
+        },
+        defaultNotification: {
           effect: 1,
           level: 10,
           color: 170,
@@ -286,6 +297,7 @@ export default [
         disabled: true,
       },
     ],
+    byteOrder: ["color", "level", "duration", "effect"],
   },
   {
     id: "fanlightcombo",
@@ -361,9 +373,14 @@ export default [
           [CONFIG_PARAMETER.LED_EFFECT]: 24,
         },
         colorRange: [0, 255],
+        brightnessRange: [0, 9],
         default: {
-          effect: 0,
           level: 10,
+          color: 170,
+        },
+        defaultNotification: {
+          effect: 1,
+          level: 9,
           color: 170,
           duration: 255,
         },
@@ -382,9 +399,14 @@ export default [
           [CONFIG_PARAMETER.LED_EFFECT]: 25,
         },
         colorRange: [0, 255],
+        brightnessRange: [0, 9],
         default: {
-          effect: 0,
           level: 10,
+          color: 170,
+        },
+        defaultNotification: {
+          effect: 1,
+          level: 9,
           color: 170,
           duration: 255,
         },
@@ -402,11 +424,12 @@ export default [
       },
     ],
     effects: [
-      { name: "Solid", value: "0" },
-      { name: "Slow Blink", value: "1" },
-      { name: "Fast Blink", value: "2" },
-      { name: "Chase", value: "3", style: { height: "150px" } },
-      { name: "Pulse", value: "4" },
+      { name: "Off (Notification Cleared)", value: "0" },
+      { name: "Solid", value: "1" },
+      { name: "Slow Blink", value: "2" },
+      { name: "Fast Blink", value: "3" },
+      { name: "Chase", value: "4", style: { height: "150px" } }, //Chase
+      { name: "Pulse", value: "5" },
     ],
     scenes: [
       {
@@ -508,5 +531,6 @@ export default [
         data: "7740",
       },
     ],
+    byteOrder: ["color", "level", "duration", "effect"],
   },
 ];

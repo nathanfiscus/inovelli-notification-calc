@@ -129,7 +129,7 @@ class App extends React.Component {
         JSON.stringify(Switches[0].leds.map((l) => l.default))
       ),
       notificationConfigs: JSON.parse(
-        JSON.stringify(Switches[0].leds.map((l) => l.default))
+        JSON.stringify(Switches[0].leds.map((l) => l.defaultNotification))
       ),
     };
   }
@@ -186,7 +186,9 @@ class App extends React.Component {
         JSON.stringify(Switches[e.target.value].leds.map((l) => l.default))
       ),
       notificationConfigs: JSON.parse(
-        JSON.stringify(Switches[e.target.value].leds.map((l) => l.default))
+        JSON.stringify(
+          Switches[e.target.value].leds.map((l) => l.defaultNotification)
+        )
       ),
     });
   };
@@ -317,6 +319,7 @@ class App extends React.Component {
                 {this.state.tab === 1 && (
                   <NotificationCalc
                     effects={Switches[this.state.type].effects}
+                    byteOrder={Switches[this.state.type].byteOrder}
                     parameters={
                       Switches[this.state.type].leds[this.state.selectedLED]
                         .parameters
@@ -327,6 +330,10 @@ class App extends React.Component {
                     colorRange={
                       Switches[this.state.type].leds[this.state.selectedLED]
                         .colorRange
+                    }
+                    brightnessRange={
+                      Switches[this.state.type].leds[this.state.selectedLED]
+                        .brightnessRange
                     }
                     onChange={this.setConfigValue}
                     format={formatType}
@@ -347,6 +354,10 @@ class App extends React.Component {
                     colorRange={
                       Switches[this.state.type].leds[this.state.selectedLED]
                         .colorRange
+                    }
+                    brightnessRange={
+                      Switches[this.state.type].leds[this.state.selectedLED]
+                        .brightnessRange
                     }
                     calculationMethod={calculationMethod}
                     config={this.state.ledConfigs[this.state.selectedLED]}

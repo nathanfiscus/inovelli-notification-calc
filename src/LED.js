@@ -119,6 +119,18 @@ class LED extends React.Component {
         ? "#fff"
         : LED_COLORS[this.props.color];
 
+    let OUTER_STYLE = {
+      ...this.props.style,
+      overflow: "hidden",
+      position: "relative",
+      //border: "1px solid #eeeeee",
+      boxShadow:
+        "0px 0px " +
+        Math.ceil(this.props.level / 4) +
+        "px 0px " +
+        SELECTED_COLOR,
+    };
+
     switch (effect.name) {
       case "Fast Blink":
         effectCSS += ` ${this.props.classes.fastBlink}`;
@@ -144,7 +156,8 @@ class LED extends React.Component {
         break;
       case "Off (Notification Cleared)":
         effectStyles.backgroundColor = "unset";
-
+        effectCSS_Shadow = ";";
+        delete OUTER_STYLE.boxShadow;
         break;
       default:
         console.log(
@@ -161,17 +174,7 @@ class LED extends React.Component {
     return (
       <div
         className={this.props.classes.notificationLED + " " + effectCSS_Shadow}
-        style={{
-          ...this.props.style,
-          overflow: "hidden",
-          position: "relative",
-          //border: "1px solid #eeeeee",
-          boxShadow:
-            "0px 0px " +
-            Math.ceil(this.props.level / 4) +
-            "px 0px " +
-            SELECTED_COLOR,
-        }}
+        style={OUTER_STYLE}
       >
         <span
           id="notification-led"
