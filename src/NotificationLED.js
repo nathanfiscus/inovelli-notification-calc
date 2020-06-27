@@ -11,9 +11,10 @@ const styles = (theme) => ({
 
 class NotificationLED extends React.Component {
   render() {
-    const { type, color, effect, level, effects, range } = this.props;
+    const { type, color, effect, level, effects, range, style } = this.props;
+
     return (
-      <div style={this.props.style}>
+      <div style={style}>
         <LED
           color={color}
           effect={effect}

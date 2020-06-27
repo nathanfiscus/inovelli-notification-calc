@@ -100,10 +100,10 @@ class NotificationCalc extends React.Component {
     this.setState({ anchor: null });
     copyToClipboard(
       byteArrayToLong([
-        this.props.config.color,
-        this.props.config.level,
-        this.props.config.duration,
-        this.props.config.effect,
+        this.props.config[this.props.byteOrder[0]],
+        this.props.config[this.props.byteOrder[1]],
+        this.props.config[this.props.byteOrder[2]],
+        this.props.config[this.props.byteOrder[3]],
       ]).toString(Number(this.props.format || 10)),
       this.handleOnCopy
     );
@@ -118,17 +118,17 @@ class NotificationCalc extends React.Component {
           this.props.format === "10"
             ? parseInt(
                 byteArrayToLong([
-                  this.props.config.color,
-                  this.props.config.level,
-                  this.props.config.duration,
-                  this.props.config.effect,
+                  this.props.config[this.props.byteOrder[0]],
+                  this.props.config[this.props.byteOrder[1]],
+                  this.props.config[this.props.byteOrder[2]],
+                  this.props.config[this.props.byteOrder[3]],
                 ]).toString(Number(this.props.format || 10))
               )
             : byteArrayToLong([
-                this.props.config.color,
-                this.props.config.level,
-                this.props.config.duration,
-                this.props.config.effect,
+                this.props.config[this.props.byteOrder[0]],
+                this.props.config[this.props.byteOrder[1]],
+                this.props.config[this.props.byteOrder[2]],
+                this.props.config[this.props.byteOrder[3]],
               ]).toString(Number(this.props.format || 10)),
       }),
       this.handleOnCopy
@@ -229,8 +229,8 @@ class NotificationCalc extends React.Component {
             <Slider
               value={this.props.config.level}
               valueLabelDisplay="auto"
-              min={0}
-              max={10}
+              min={this.props.brightnessRange[0]}
+              max={this.props.brightnessRange[1]}
               onChange={this.setValue("level")}
               disabled={
                 this.props.effect === "0" && this.props.type !== "fan-dimmer"
@@ -279,10 +279,10 @@ class NotificationCalc extends React.Component {
         <TextField
           style={{ marginTop: "60px" }}
           value={byteArrayToLong([
-            this.props.config.color,
-            this.props.config.level,
-            this.props.config.duration,
-            this.props.config.effect,
+            this.props.config[this.props.byteOrder[0]],
+            this.props.config[this.props.byteOrder[1]],
+            this.props.config[this.props.byteOrder[2]],
+            this.props.config[this.props.byteOrder[3]],
           ]).toString(Number(this.props.format || 10))}
           readOnly={true}
           label={`Configuration Value (Parameter ${
