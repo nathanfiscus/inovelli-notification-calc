@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/inovelli-notification-calc/static/js/main.bb987610.chunk.js",
-    "main.js.map": "/inovelli-notification-calc/static/js/main.bb987610.chunk.js.map",
+    "main.js": "/inovelli-notification-calc/static/js/main.f5b63039.chunk.js",
+    "main.js.map": "/inovelli-notification-calc/static/js/main.f5b63039.chunk.js.map",
     "runtime-main.js": "/inovelli-notification-calc/static/js/runtime-main.e9a53d7a.js",
     "runtime-main.js.map": "/inovelli-notification-calc/static/js/runtime-main.e9a53d7a.js.map",
     "static/js/2.0a15c20d.chunk.js": "/inovelli-notification-calc/static/js/2.0a15c20d.chunk.js",
     "static/js/2.0a15c20d.chunk.js.map": "/inovelli-notification-calc/static/js/2.0a15c20d.chunk.js.map",
     "index.html": "/inovelli-notification-calc/index.html",
-    "precache-manifest.6024674d88ffb1edcd2e5e64ca3b435b.js": "/inovelli-notification-calc/precache-manifest.6024674d88ffb1edcd2e5e64ca3b435b.js",
+    "precache-manifest.3aa633c1a93d67f649a12525327e1e9e.js": "/inovelli-notification-calc/precache-manifest.3aa633c1a93d67f649a12525327e1e9e.js",
     "service-worker.js": "/inovelli-notification-calc/service-worker.js",
     "static/js/2.0a15c20d.chunk.js.LICENSE": "/inovelli-notification-calc/static/js/2.0a15c20d.chunk.js.LICENSE",
     "static/media/Hurricane.png": "/inovelli-notification-calc/static/media/Hurricane.df96c77b.png",
@@ -16,6 +16,6 @@
   "entrypoints": [
     "static/js/runtime-main.e9a53d7a.js",
     "static/js/2.0a15c20d.chunk.js",
-    "static/js/main.bb987610.chunk.js"
+    "static/js/main.f5b63039.chunk.js"
   ]
 }
