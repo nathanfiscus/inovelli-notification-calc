@@ -9,7 +9,7 @@ import {
   List,
   ListItem,
   ListItemText,
-  IconButton
+  IconButton,
 } from "@material-ui/core";
 import Twitter from "@material-ui/icons/Twitter";
 import GitHub from "@material-ui/icons/GitHub";
@@ -18,9 +18,17 @@ import LinkedIn from "@material-ui/icons/LinkedIn";
 class AboutDialog extends React.Component {
   render() {
     return (
-      <Dialog open={this.props.open} onClose={this.props.onClose}>
+      <Dialog
+        open={this.props.open}
+        onClose={this.props.onClose}
+        fullWidth
+        maxWidth="md"
+      >
         <DialogTitle>About</DialogTitle>
         <DialogContent>
+          <Typography variant="h4" gutterBottom>
+            Version 3.0.1 (June 26, 2020)
+          </Typography>
           <Typography variant="h6">About the Tool</Typography>
           <Typography variant="caption" gutterBottom={true}>
             This is a simple application to assist in calculating the
