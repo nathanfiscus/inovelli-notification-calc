@@ -426,9 +426,9 @@ export default [
     effects: [
       { name: "Off (Notification Cleared)", value: "0" },
       { name: "Solid", value: "1" },
-      { name: "Slow Blink", value: "2" },
+      { name: "Chase", value: "2", style: { height: "150px" } }, //Chase
       { name: "Fast Blink", value: "3" },
-      { name: "Chase", value: "4", style: { height: "150px" } }, //Chase
+      { name: "Slow Blink", value: "4" },
       { name: "Pulse", value: "5" },
     ],
     scenes: [
