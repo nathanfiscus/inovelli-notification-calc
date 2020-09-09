@@ -10,6 +10,11 @@ class ThemeProvider extends React.Component {
       themeType: window.localStorage.themeType || "light",
       formatType: window.localStorage.formatType || "10",
       calculationMethod: window.localStorage.calculationMethod || "raw",
+      sceneMethod: window.localStorage.sceneMethod || "ha",
+      setSceneMethod: (method) => {
+        this.setState({ sceneMethod: method });
+        window.localStorage.setItem("sceneMethod", method);
+      },
       setFormat: (format) => {
         this.setState({ formatType: format });
         window.localStorage.setItem("formatType", format);
