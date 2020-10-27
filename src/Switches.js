@@ -421,7 +421,7 @@ export default [
       },
     ],
     images: [],
-    defaultFirmware: "1.15",
+    defaultFirmware: "1.19",
     firmwares: {
       1.15: {
         leds: [
@@ -872,14 +872,14 @@ export default [
               [CONFIG_PARAMETER.LED_EFFECT]: 24,
             },
             colorRange: [0, 255],
-            brightnessRange: [0, 9],
+            brightnessRange: [0, 10],
             default: {
               level: 10,
               color: 170,
             },
             defaultNotification: {
               effect: 1,
-              level: 9,
+              level: 10,
               color: 170,
               duration: 255,
             },
@@ -898,14 +898,14 @@ export default [
               [CONFIG_PARAMETER.LED_EFFECT]: 25,
             },
             colorRange: [0, 255],
-            brightnessRange: [0, 9],
+            brightnessRange: [0, 10],
             default: {
               level: 10,
               color: 170,
             },
             defaultNotification: {
               effect: 1,
-              level: 9,
+              level: 10,
               color: 170,
               duration: 255,
             },
@@ -1041,7 +1041,7 @@ export default [
             taps: "1",
             paddle_id: "light_rocker_up",
             id: "1",
-            data: "7740",
+            data: "?",
             button: "Button 7 Pushed",
           },
           {
@@ -1049,7 +1049,7 @@ export default [
             taps: "1",
             paddle_id: "light_rocker_down",
             id: "1",
-            data: "7740",
+            data: "?",
             button: "Button 7 Held",
           },
           {
@@ -1057,7 +1057,7 @@ export default [
             taps: "1",
             paddle_id: "fan_rocker_up",
             id: "1",
-            data: "7740",
+            data: "?",
             button: "Button 9 Pushed",
           },
           {
@@ -1065,7 +1065,7 @@ export default [
             taps: "1",
             paddle_id: "fan_rocker_down",
             id: "1",
-            data: "7740",
+            data: "?",
             button: "Button 9 Held",
           },
         ],
