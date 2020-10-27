@@ -77,7 +77,7 @@ export default [
             id: "2",
             data: "7680",
             disabled: true,
-            scene_value_id: "1",
+            scene_value_label: "Pressed 1 Time",
             button: "Button 1 Pushed",
           },
           {
@@ -87,7 +87,7 @@ export default [
             id: "1",
             data: "7680",
             disabled: true,
-            scene_value_id: "1",
+            scene_value_label: "Pressed 1 Time",
             button: "Button 1 Held",
           },
           {
@@ -96,7 +96,7 @@ export default [
             paddle_id: "up",
             id: "2",
             data: "7860",
-            scene_value_id: "4",
+            scene_value_label: "Pressed 2 Times",
             button: "Button 2 Pushed",
           },
           {
@@ -105,7 +105,7 @@ export default [
             paddle_id: "down",
             id: "1",
             data: "7860",
-            scene_value_id: "4",
+            scene_value_label: "Pressed 2 Times",
             button: "Button 2 Held",
           },
           {
@@ -114,7 +114,7 @@ export default [
             paddle_id: "up",
             id: "2",
             data: "7920",
-            scene_value_id: "5",
+            scene_value_label: "Pressed 3 Times",
             button: "Button 3 Push",
           },
           {
@@ -123,7 +123,7 @@ export default [
             paddle_id: "down",
             id: "1",
             data: "7920",
-            scene_value_id: "5",
+            scene_value_label: "Pressed 3 Times",
             button: "Button 3 Held",
           },
           {
@@ -132,7 +132,7 @@ export default [
             paddle_id: "up",
             id: "2",
             data: "7980",
-            scene_value_id: "6",
+            scene_value_label: "Pressed 4 Times",
             button: "Button 4 Pushed",
           },
           {
@@ -141,7 +141,7 @@ export default [
             paddle_id: "down",
             id: "1",
             data: "7980",
-            scene_value_id: "6",
+            scene_value_label: "Pressed 4 Times",
             button: "Button 4 Held",
           },
           {
@@ -150,7 +150,7 @@ export default [
             paddle_id: "up",
             id: "2",
             data: "8040",
-            scene_value_id: "7",
+            scene_value_label: "Pressed 5 Times",
             button: "Button 5 Pushed",
           },
           {
@@ -159,7 +159,7 @@ export default [
             paddle_id: "down",
             id: "1",
             data: "8040",
-            scene_value_id: "7",
+            scene_value_label: "Pressed 5 Times",
             button: "Button 5 Held",
           },
           {
@@ -168,7 +168,7 @@ export default [
             paddle_id: "config",
             id: "3",
             data: "7680",
-            scene_value_id: "1",
+            scene_value_label: "Pressed 1 Time",
             button: "Button 7 Pushed",
           },
           {
@@ -178,7 +178,7 @@ export default [
             id: "2",
             data: "7800",
             disabled: true,
-            scene_value_id: "3",
+            scene_value_label: "Key Held down",
             button: "Button 6 Pushed",
           },
           {
@@ -188,7 +188,7 @@ export default [
             id: "2",
             data: "7740",
             disabled: true,
-            scene_value_id: "2",
+            scene_value_label: "Key Released",
             button: "N/A",
           },
           {
@@ -198,7 +198,7 @@ export default [
             id: "1",
             data: "7800",
             disabled: true,
-            scene_value_id: "3",
+            scene_value_label: "Key Held down",
             button: "Button 6 Held",
           },
           {
@@ -208,7 +208,7 @@ export default [
             id: "1",
             data: "7740",
             disabled: true,
-            scene_value_id: "2",
+            scene_value_label: "Key Released",
             button: "N/A",
           },
         ],
@@ -258,7 +258,7 @@ export default [
             id: "2",
             data: "7680",
             disabled: true,
-            scene_value_id: "1",
+            scene_value_label: "Pressed 1 Time",
             button: "Button 1 Pushed",
           },
           {
@@ -268,7 +268,7 @@ export default [
             id: "1",
             data: "7680",
             disabled: true,
-            scene_value_id: "1",
+            scene_value_label: "Pressed 1 Time",
             button: "Button 1 Held",
           },
           {
@@ -277,7 +277,7 @@ export default [
             paddle_id: "up",
             id: "2",
             data: "7860",
-            scene_value_id: "4",
+            scene_value_label: "Pressed 2 Times",
             button: "Button 2 Pushed",
           },
           {
@@ -286,7 +286,7 @@ export default [
             paddle_id: "down",
             id: "1",
             data: "7860",
-            scene_value_id: "4",
+            scene_value_label: "Pressed 2 Times",
             button: "Button 2 Held",
           },
           {
@@ -295,7 +295,7 @@ export default [
             paddle_id: "up",
             id: "2",
             data: "7920",
-            scene_value_id: "5",
+            scene_value_label: "Pressed 3 Times",
             button: "Button 3 Push",
           },
           {
@@ -304,7 +304,7 @@ export default [
             paddle_id: "down",
             id: "1",
             data: "7920",
-            scene_value_id: "5",
+            scene_value_label: "Pressed 3 Times",
             button: "Button 3 Held",
           },
           {
@@ -313,7 +313,7 @@ export default [
             paddle_id: "up",
             id: "2",
             data: "7980",
-            scene_value_id: "6",
+            scene_value_label: "Pressed 4 Times",
             button: "Button 4 Pushed",
           },
           {
@@ -322,7 +322,7 @@ export default [
             paddle_id: "down",
             id: "1",
             data: "7980",
-            scene_value_id: "6",
+            scene_value_label: "Pressed 4 Times",
             button: "Button 4 Held",
           },
           {
@@ -331,7 +331,7 @@ export default [
             paddle_id: "up",
             id: "2",
             data: "8040",
-            scene_value_id: "7",
+            scene_value_label: "Pressed 5 Times",
             button: "Button 5 Pushed",
           },
           {
@@ -340,7 +340,7 @@ export default [
             paddle_id: "down",
             id: "1",
             data: "8040",
-            scene_value_id: "7",
+            scene_value_label: "Pressed 5 Times",
             button: "Button 5 Held",
           },
           {
@@ -349,7 +349,7 @@ export default [
             paddle_id: "config",
             id: "3",
             data: "7680",
-            scene_value_id: "1",
+            scene_value_label: "Pressed 1 Time",
             button: "Button 7 Pushed",
           },
           {
@@ -359,7 +359,7 @@ export default [
             id: "2",
             data: "7800",
             disabled: true,
-            scene_value_id: "3",
+            scene_value_label: "Key Held down",
             button: "Button 6 Pushed",
           },
           {
@@ -369,7 +369,7 @@ export default [
             id: "2",
             data: "7740",
             disabled: true,
-            scene_value_id: "2",
+            scene_value_label: "Key Released",
             button: "N/A",
           },
           {
@@ -379,7 +379,7 @@ export default [
             id: "1",
             data: "7800",
             disabled: true,
-            scene_value_id: "3",
+            scene_value_label: "Key Held down",
             button: "Button 6 Held",
           },
           {
@@ -389,7 +389,7 @@ export default [
             id: "1",
             data: "7740",
             disabled: true,
-            scene_value_id: "2",
+            scene_value_label: "Key Released",
             button: "N/A",
           },
         ],
@@ -467,7 +467,7 @@ export default [
             id: "2",
             data: "7680",
             disabled: true,
-            scene_value_id: "1",
+            scene_value_label: "Pressed 1 Time",
             button: "Button 1 Pushed",
           },
           {
@@ -477,7 +477,7 @@ export default [
             id: "1",
             data: "7680",
             disabled: true,
-            scene_value_id: "1",
+            scene_value_label: "Pressed 1 Time",
             button: "Button 1 Held",
           },
           {
@@ -486,7 +486,7 @@ export default [
             paddle_id: "up",
             id: "2",
             data: "7860",
-            scene_value_id: "4",
+            scene_value_label: "Pressed 2 Times",
             button: "Button 2 Pushed",
           },
           {
@@ -495,7 +495,7 @@ export default [
             paddle_id: "down",
             id: "1",
             data: "7860",
-            scene_value_id: "4",
+            scene_value_label: "Pressed 2 Times",
             button: "Button 2 Held",
           },
           {
@@ -504,7 +504,7 @@ export default [
             paddle_id: "up",
             id: "2",
             data: "7920",
-            scene_value_id: "5",
+            scene_value_label: "Pressed 3 Times",
             button: "Button 3 Pushed",
           },
           {
@@ -513,7 +513,7 @@ export default [
             paddle_id: "down",
             id: "1",
             data: "7920",
-            scene_value_id: "5",
+            scene_value_label: "Pressed 3 Times",
             button: "Button 3 Held",
           },
           {
@@ -522,7 +522,7 @@ export default [
             paddle_id: "up",
             id: "2",
             data: "7980",
-            scene_value_id: "6",
+            scene_value_label: "Pressed 4 Times",
             button: "Button 4 Pushed",
           },
           {
@@ -531,7 +531,7 @@ export default [
             paddle_id: "down",
             id: "1",
             data: "7980",
-            scene_value_id: "6",
+            scene_value_label: "Pressed 4 Times",
             button: "Button 4 Held",
           },
           {
@@ -540,7 +540,7 @@ export default [
             paddle_id: "up",
             id: "2",
             data: "8040",
-            scene_value_id: "7",
+            scene_value_label: "Pressed 5 Times",
             button: "Button 5 Pushed",
           },
           {
@@ -549,7 +549,7 @@ export default [
             paddle_id: "down",
             id: "1",
             data: "8040",
-            scene_value_id: "7",
+            scene_value_label: "Pressed 5 Times",
             button: "Button 5 Pushed",
           },
           {
@@ -558,7 +558,7 @@ export default [
             paddle_id: "config",
             id: "3",
             data: "7680",
-            scene_value_id: "1",
+            scene_value_label: "Pressed 1 Time",
             button: "Button 7 Pushed",
           },
           {
@@ -567,7 +567,7 @@ export default [
             paddle_id: "up",
             id: "2",
             data: "7800",
-            scene_value_id: "3",
+            scene_value_label: "Key Held down",
             button: "Button 6 Pushed",
           },
           {
@@ -577,7 +577,7 @@ export default [
             id: "2",
             data: "7740",
             disabled: true,
-            scene_value_id: "2",
+            scene_value_label: "Key Released",
             button: "N/A",
           },
           {
@@ -587,7 +587,7 @@ export default [
             id: "1",
             data: "7800",
             disabled: true,
-            scene_value_id: "3",
+            scene_value_label: "Key Held down",
             button: "Button 6 Held",
           },
           {
@@ -597,7 +597,7 @@ export default [
             id: "1",
             data: "7740",
             disabled: true,
-            scene_value_id: "2",
+            scene_value_label: "Key Released",
             button: "N/A",
           },
         ],
@@ -646,7 +646,7 @@ export default [
             id: "2",
             data: "7680",
             disabled: true,
-            scene_value_id: "1",
+            scene_value_label: "Pressed 1 Time",
             button: "Button 1 Pushed",
           },
           {
@@ -656,7 +656,7 @@ export default [
             id: "1",
             data: "7680",
             disabled: true,
-            scene_value_id: "1",
+            scene_value_label: "Pressed 1 Time",
             button: "Button 1 Held",
           },
           {
@@ -665,7 +665,7 @@ export default [
             paddle_id: "up",
             id: "2",
             data: "7860",
-            scene_value_id: "4",
+            scene_value_label: "Pressed 2 Times",
             button: "Button 2 Pushed",
           },
           {
@@ -674,7 +674,7 @@ export default [
             paddle_id: "down",
             id: "1",
             data: "7860",
-            scene_value_id: "4",
+            scene_value_label: "Pressed 2 Times",
             button: "Button 2 Held",
           },
           {
@@ -683,7 +683,7 @@ export default [
             paddle_id: "up",
             id: "2",
             data: "7920",
-            scene_value_id: "5",
+            scene_value_label: "Pressed 3 Times",
             button: "Button 3 Pushed",
           },
           {
@@ -692,7 +692,7 @@ export default [
             paddle_id: "down",
             id: "1",
             data: "7920",
-            scene_value_id: "5",
+            scene_value_label: "Pressed 3 Times",
             button: "Button 3 Held",
           },
           {
@@ -701,7 +701,7 @@ export default [
             paddle_id: "up",
             id: "2",
             data: "7980",
-            scene_value_id: "6",
+            scene_value_label: "Pressed 4 Times",
             button: "Button 4 Pushed",
           },
           {
@@ -710,7 +710,7 @@ export default [
             paddle_id: "down",
             id: "1",
             data: "7980",
-            scene_value_id: "6",
+            scene_value_label: "Pressed 4 Times",
             button: "Button 4 Held",
           },
           {
@@ -719,7 +719,7 @@ export default [
             paddle_id: "up",
             id: "2",
             data: "8040",
-            scene_value_id: "7",
+            scene_value_label: "Pressed 5 Times",
             button: "Button 5 Pushed",
           },
           {
@@ -728,7 +728,7 @@ export default [
             paddle_id: "down",
             id: "1",
             data: "8040",
-            scene_value_id: "7",
+            scene_value_label: "Pressed 5 Times",
             button: "Button 5 Pushed",
           },
           {
@@ -737,7 +737,7 @@ export default [
             paddle_id: "config",
             id: "3",
             data: "7680",
-            scene_value_id: "1",
+            scene_value_label: "Pressed 1 Time",
             button: "Button 7 Pushed",
           },
           {
@@ -746,7 +746,7 @@ export default [
             paddle_id: "up",
             id: "2",
             data: "7800",
-            scene_value_id: "3",
+            scene_value_label: "Key Held down",
             button: "Button 6 Pushed",
           },
           {
@@ -756,7 +756,7 @@ export default [
             id: "2",
             data: "7740",
             disabled: true,
-            scene_value_id: "2",
+            scene_value_label: "Key Released",
             button: "N/A",
           },
           {
@@ -766,7 +766,7 @@ export default [
             id: "1",
             data: "7800",
             disabled: true,
-            scene_value_id: "3",
+            scene_value_label: "Key Held down",
             button: "Button 6 Held",
           },
           {
@@ -776,7 +776,7 @@ export default [
             id: "1",
             data: "7740",
             disabled: true,
-            scene_value_id: "2",
+            scene_value_label: "Key Released",
             button: "N/A",
           },
         ],
@@ -927,7 +927,7 @@ export default [
             paddle_id: "light",
             id: "2",
             data: "7680",
-            scene_value_id: "1",
+            scene_value_label: "Pressed 1 Time",
             button: "Button 1 Pushed",
           },
           {
@@ -936,6 +936,7 @@ export default [
             paddle_id: "light",
             id: "2",
             data: "7860",
+            scene_value_label: "Pressed 2 Times",
             button: "Button 2 Pushed",
           },
           {
@@ -944,6 +945,7 @@ export default [
             paddle_id: "light",
             id: "2",
             data: "7920",
+            scene_value_label: "Pressed 3 Times",
             button: "Button 3 Pushed",
           },
           {
@@ -952,6 +954,7 @@ export default [
             paddle_id: "light",
             id: "2",
             data: "7980",
+            scene_value_label: "Pressed 4 Times",
             button: "Button 4 Pushed",
           },
           {
@@ -960,7 +963,7 @@ export default [
             paddle_id: "light",
             id: "2",
             data: "8040",
-            scene_value_id: "4",
+            scene_value_label: "Pressed 5 Times",
             button: "Button 5 Pushed",
           },
           {
@@ -969,7 +972,7 @@ export default [
             paddle_id: "light",
             id: "2",
             data: "7800",
-            scene_value_id: "4",
+            scene_value_label: "Key Held down",
             button: "Button 8 Pushed",
           },
           {
@@ -978,6 +981,7 @@ export default [
             paddle_id: "light",
             id: "2",
             data: "7740",
+            scene_value_label: "Key Released",
             button: "Button 6 Pushed",
           },
           {
@@ -986,6 +990,7 @@ export default [
             paddle_id: "fan",
             id: "1",
             data: "7680",
+            scene_value_label: "Pressed 1 Time",
             button: "Button 1 Held",
           },
           {
@@ -994,6 +999,7 @@ export default [
             paddle_id: "fan",
             id: "1",
             data: "7860",
+            scene_value_label: "Pressed 2 Times",
             button: "Button 2 Held",
           },
           {
@@ -1002,6 +1008,7 @@ export default [
             paddle_id: "fan",
             id: "1",
             data: "7920",
+            scene_value_label: "Pressed 3 Times",
             button: "Button 3 Held",
           },
           {
@@ -1010,6 +1017,7 @@ export default [
             paddle_id: "fan",
             id: "1",
             data: "7980",
+            scene_value_label: "Pressed 4 Times",
             button: "Button 4 Held",
           },
           {
@@ -1018,6 +1026,7 @@ export default [
             paddle_id: "fan",
             id: "1",
             data: "8040",
+            scene_value_label: "Pressed 5 Times",
             button: "Button 5 Held",
           },
           {
@@ -1026,6 +1035,7 @@ export default [
             paddle_id: "fan",
             id: "1",
             data: "7800",
+            scene_value_label: "Key Held down",
             button: "Button 8 Held",
           },
           {
@@ -1034,38 +1044,43 @@ export default [
             paddle_id: "fan",
             id: "1",
             data: "7740",
+            scene_value_label: "Key Released",
             button: "Button 6 Held",
           },
           {
             buttons: "Light Rocker Up",
             taps: "1",
             paddle_id: "light_rocker_up",
-            id: "1",
+            id: "3",
             data: "?",
+            scene_value_label: "Pressed 1 Time",
             button: "Button 7 Pushed",
           },
           {
             buttons: "Light Rocker Down",
             taps: "1",
             paddle_id: "light_rocker_down",
-            id: "1",
+            id: "4",
             data: "?",
+            scene_value_label: "Pressed 1 Time",
             button: "Button 7 Held",
           },
           {
             buttons: "Fan Rocker Up",
             taps: "1",
             paddle_id: "fan_rocker_up",
-            id: "1",
+            id: "5",
             data: "?",
+            scene_value_label: "Pressed 1 Time",
             button: "Button 9 Pushed",
           },
           {
             buttons: "Fan Rocker Down",
             taps: "1",
             paddle_id: "fan_rocker_down",
-            id: "1",
+            id: "6",
             data: "?",
+            scene_value_label: "Pressed 1 Time",
             button: "Button 9 Held",
           },
         ],

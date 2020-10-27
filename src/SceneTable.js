@@ -51,7 +51,7 @@ class SceneTable extends React.PureComponent {
           <Table size="small" stickyHeader={true}>
             <TableHead>
               <TableRow>
-                <TableCell>Switch Taps</TableCell>
+                <TableCell>Taps</TableCell>
                 {this.props.sceneMethod !== "driver" && (
                   <TableCell align="right">Scene ID</TableCell>
                 )}
@@ -59,7 +59,7 @@ class SceneTable extends React.PureComponent {
                   {this.props.sceneMethod === "ha"
                     ? "Scene Data"
                     : this.props.sceneMethod === "ozw"
-                    ? "Scene Value ID"
+                    ? "Scene Value Label"
                     : "Button"}
                 </TableCell>
                 {this.props.sceneMethod !== "driver" && (

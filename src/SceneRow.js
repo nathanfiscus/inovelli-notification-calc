@@ -76,7 +76,7 @@ class SceneRow extends React.PureComponent {
     } else {
       copyToClipboard(
         YAML.stringify({
-          scene_value_id: parseInt(this.props.row.scene_value_id),
+          scene_value_label: parseInt(this.props.row.scene_value_label),
           scene_id: parseInt(this.props.row.id),
         }),
         this.props.onCopy
@@ -138,7 +138,7 @@ class SceneRow extends React.PureComponent {
           {this.props.sceneMethod === "ha"
             ? row.data
             : this.props.sceneMethod === "ozw"
-            ? row.scene_value_id
+            ? row.scene_value_label
             : row.button}
         </TableCell>
         {this.props.sceneMethod !== "driver" && (

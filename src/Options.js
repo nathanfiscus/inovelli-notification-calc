@@ -90,7 +90,7 @@ class OptionsDialog extends React.PureComponent {
               </MenuItem>
               <MenuItem value="driver">
                 <ListItemText
-                  primary="Driver References"
+                  primary="Device Handler References"
                   secondary="SmartThings, Hubitat or other device-handler based controller."
                 />
               </MenuItem>
