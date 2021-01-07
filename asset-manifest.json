@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.js": "/inovelli-notification-calc/static/js/main.d09b6a54.chunk.js",
-    "main.js.map": "/inovelli-notification-calc/static/js/main.d09b6a54.chunk.js.map",
-    "runtime-main.js": "/inovelli-notification-calc/static/js/runtime-main.d0ed6405.js",
-    "runtime-main.js.map": "/inovelli-notification-calc/static/js/runtime-main.d0ed6405.js.map",
-    "static/js/2.b962f383.chunk.js": "/inovelli-notification-calc/static/js/2.b962f383.chunk.js",
-    "static/js/2.b962f383.chunk.js.map": "/inovelli-notification-calc/static/js/2.b962f383.chunk.js.map",
+    "main.js": "/inovelli-notification-calc/static/js/main.467c0f7c.chunk.js",
+    "main.js.map": "/inovelli-notification-calc/static/js/main.467c0f7c.chunk.js.map",
+    "runtime-main.js": "/inovelli-notification-calc/static/js/runtime-main.e9a53d7a.js",
+    "runtime-main.js.map": "/inovelli-notification-calc/static/js/runtime-main.e9a53d7a.js.map",
+    "static/js/2.a860a3ee.chunk.js": "/inovelli-notification-calc/static/js/2.a860a3ee.chunk.js",
+    "static/js/2.a860a3ee.chunk.js.map": "/inovelli-notification-calc/static/js/2.a860a3ee.chunk.js.map",
     "index.html": "/inovelli-notification-calc/index.html",
-    "precache-manifest.d9d672f3576111cafc43c8acbf470f2c.js": "/inovelli-notification-calc/precache-manifest.d9d672f3576111cafc43c8acbf470f2c.js",
+    "precache-manifest.dd7c284e2f2b7ebb5989bae624829bca.js": "/inovelli-notification-calc/precache-manifest.dd7c284e2f2b7ebb5989bae624829bca.js",
     "service-worker.js": "/inovelli-notification-calc/service-worker.js",
-    "static/js/2.b962f383.chunk.js.LICENSE.txt": "/inovelli-notification-calc/static/js/2.b962f383.chunk.js.LICENSE.txt",
-    "static/media/Hurricane.png": "/inovelli-notification-calc/static/media/Hurricane.df96c77b.png",
-    "static/media/Inovelli-LZW30-SN.gif": "/inovelli-notification-calc/static/media/Inovelli-LZW30-SN.b878040d.gif"
+    "static/js/2.a860a3ee.chunk.js.LICENSE": "/inovelli-notification-calc/static/js/2.a860a3ee.chunk.js.LICENSE",
+    "static/media/Hurricane.png": "/inovelli-notification-calc/static/media/Hurricane.99b9c04a.png",
+    "static/media/Inovelli-LZW30-SN.png": "/inovelli-notification-calc/static/media/Inovelli-LZW30-SN.d915a82d.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.d0ed6405.js",
-    "static/js/2.b962f383.chunk.js",
-    "static/js/main.d09b6a54.chunk.js"
+    "static/js/runtime-main.e9a53d7a.js",
+    "static/js/2.a860a3ee.chunk.js",
+    "static/js/main.467c0f7c.chunk.js"
   ]
 }
