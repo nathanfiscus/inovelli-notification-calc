@@ -30,6 +30,10 @@ class OptionsDialog extends React.PureComponent {
     this.props.setFormat(e.target.value);
   };
 
+  handleSceneMethodChange = (e) => {
+    this.props.setSceneMethod(e.target.value);
+  };
+
   render() {
     return (
       <Dialog
@@ -61,6 +65,32 @@ class OptionsDialog extends React.PureComponent {
               <MenuItem value="driver">
                 <ListItemText
                   primary="Device Handler"
+                  secondary="SmartThings, Hubitat or other device-handler based controller."
+                />
+              </MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl fullWidth={true} margin="normal">
+            <InputLabel>Scene Reference</InputLabel>
+            <Select
+              value={this.props.sceneMethod}
+              onChange={this.handleSceneMethodChange}
+            >
+              <MenuItem value="ha">
+                <ListItemText
+                  primary="Home Assistant (OpenZWave 1.4)"
+                  secondary="Home Assistant configurations using the legacy zwave integration."
+                />
+              </MenuItem>
+              <MenuItem value="ozw">
+                <ListItemText
+                  primary="Home Assistant (OpenZWave 1.6)"
+                  secondary="Home Assistant configurations using the new ozw integration. (Currently in beta)"
+                />
+              </MenuItem>
+              <MenuItem value="driver">
+                <ListItemText
+                  primary="Device Handler References"
                   secondary="SmartThings, Hubitat or other device-handler based controller."
                 />
               </MenuItem>

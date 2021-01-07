@@ -1,5 +1,5 @@
 import React from "react";
-import lzw30sn from "./Inovelli-LZW30-SN.gif";
+import lzw30sn from "./Inovelli-LZW30-SN.png";
 
 import NotificationLED from "./NotificationLED";
 

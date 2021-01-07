@@ -27,7 +27,7 @@ class AboutDialog extends React.Component {
         <DialogTitle>About</DialogTitle>
         <DialogContent>
           <Typography variant="h4" gutterBottom>
-            Version 3.0.1 (June 26, 2020)
+            Version 4.0.0 (Jan 5, 2020)
           </Typography>
           <Typography variant="h6">About the Tool</Typography>
           <Typography variant="caption" gutterBottom={true}>

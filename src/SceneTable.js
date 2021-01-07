@@ -7,7 +7,7 @@ import {
   TableCell,
   TableBody,
   Typography,
-  Snackbar
+  Snackbar,
 } from "@material-ui/core";
 import SceneRow from "./SceneRow";
 import Slide from "@material-ui/core/Slide";
@@ -20,23 +20,23 @@ class SceneTable extends React.PureComponent {
   static propTypes = {};
 
   static defaultProps = {
-    scenes: []
+    scenes: [],
   };
 
   constructor(props) {
     super(props);
     this.state = {
       snackbarOpen: false,
-      copyStatusText: ""
+      copyStatusText: "",
     };
   }
 
-  handleOnCopy = success => {
+  handleOnCopy = (success) => {
     this.setState({
       snackbarOpen: true,
       copyStatusText: success
         ? "Copied to Clipboard"
-        : "Unable to copy to clipboard. Check browser settings."
+        : "Unable to copy to clipboard. Check browser settings.",
     });
   };
 
@@ -51,10 +51,20 @@ class SceneTable extends React.PureComponent {
           <Table size="small" stickyHeader={true}>
             <TableHead>
               <TableRow>
-                <TableCell>Button Press</TableCell>
-                <TableCell align="right">Scene ID</TableCell>
-                <TableCell align="right">Scene Data</TableCell>
-                <TableCell align="right"></TableCell>
+                <TableCell>Taps</TableCell>
+                {this.props.sceneMethod !== "driver" && (
+                  <TableCell align="right">Scene ID</TableCell>
+                )}
+                <TableCell align="right">
+                  {this.props.sceneMethod === "ha"
+                    ? "Scene Data"
+                    : this.props.sceneMethod === "ozw"
+                    ? "Scene Value Label"
+                    : "Button"}
+                </TableCell>
+                {this.props.sceneMethod !== "driver" && (
+                  <TableCell align="right"></TableCell>
+                )}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -68,6 +78,7 @@ class SceneTable extends React.PureComponent {
                     isHighlighted={isHighlighted}
                     isDisabled={row.disabled}
                     row={row}
+                    sceneMethod={this.props.sceneMethod}
                     onCopy={this.handleOnCopy}
                   />
                 );
@@ -87,7 +98,7 @@ class SceneTable extends React.PureComponent {
         <Snackbar
           anchorOrigin={{
             vertical: "bottom",
-            horizontal: "right"
+            horizontal: "right",
           }}
           TransitionComponent={SlideTransition}
           open={this.state.snackbarOpen}
