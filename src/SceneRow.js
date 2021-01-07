@@ -76,7 +76,7 @@ class SceneRow extends React.PureComponent {
     } else {
       copyToClipboard(
         YAML.stringify({
-          scene_value_label: parseInt(this.props.row.scene_value_label),
+          scene_value_label: this.props.row.scene_value_label,
           scene_id: parseInt(this.props.row.id),
         }),
         this.props.onCopy
