@@ -290,7 +290,7 @@ class App extends React.Component {
             <AppBar position="static">
               <Toolbar>
                 <Typography variant="h6" style={{ flexGrow: "1" }}>
-                  Inovelli Toolbox
+                  Inovelli Switch Toolbox
                 </Typography>
                 <div style={{ flexShrink: "0", flexGrow: "0" }}>
                   <Tooltip title="Options">
